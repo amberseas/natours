@@ -1,0 +1,196 @@
+/*What makes this entire navigation work, especially the clicks? So when we click and the navigation opens, what makes that work 
+is the so called checkbox hack. So how does that work? When we clicked on a label, then the checkbox would become selected. So 
+basically, the three steps for this to work is to first have a checkbox, which will be hidden later, then second, have a label 
+connected to that checkbox, which is where we click. And then the third step is to reveal the entire navigation here in the 
+background as soon as the checkbox becomes checked. And we can use the checked pseudo class in CSS to style this.*/
+
+.navigation {
+    &__checkbox {
+        display: none;
+    }
+
+    &__button {
+        background-color: $color-white;
+        height: 7rem;
+        width: 7rem;
+        border-radius: 50%;
+        position: fixed;
+        top: 6rem;
+        right: 6rem;
+        z-index: 2000;
+        box-shadow: 0 1rem 3rem rgba($color-black, .1);
+        text-align: center;
+        cursor: pointer;
+
+        @include respond(tab-port) {
+            top: 4rem;
+            right: 4rem;
+        }
+
+        @include respond(phone) {
+            top: 3rem;
+            right: 3rem;
+        }
+    }
+
+    &__background {
+        height: 6rem;
+        width: 6rem;
+        border-radius: 50%;
+        position: fixed;
+        top: 6.5rem;
+        right: 6.5rem;
+        background-image: radial-gradient($color-primary-light, $color-primary-dark);
+        z-index: 1000;
+        transition: transform .8s cubic-bezier(0.86, 0, 0.07, 1); //cubic-bezier functions from 'easings.net'
+
+        @include respond(tab-port) {
+            top: 4.5rem;
+            right: 4.5rem;
+        }
+
+        @include respond(phone) {
+            top: 3.5rem;
+            right: 3.5rem;
+        }
+    }
+
+    &__nav {
+        height: 100vh;
+
+        position: fixed;
+        top: 0;
+        left: -20rem; //to make links go away from left side of the page, even they where invisible, but clickable
+        z-index: 1500;
+
+        opacity: 0;
+        width: 0;
+
+        transition: all .8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    &__list {
+        @include absCenter;
+        list-style: none;
+        text-align: center;
+        width: 100%;
+    }
+
+    &__item {
+        margin-top: 1rem;
+    }
+
+    &__link {
+
+        &:link,
+        &:visited {
+            display: inline-block;
+            font-size: 3rem;
+            font-weight: 300;
+            padding: 1rem 2rem;
+            color: $color-white;
+            text-decoration: none;
+            text-transform: uppercase;
+            background-image: linear-gradient(120deg, transparent 0%, transparent 50%, $color-white 50%);
+            background-size: 230%;
+            /*And if we increase background-size, the entire background basically moves to the right side. 
+                                And that's because we're basically increasing the entire thing. But it's not visible because
+                                the box ends after text. But you can imagine that now this entire background goes like around 
+                                this entire text. And if we set this all the way to 200, which is double...So now we see only half 
+                                of the gradient, so only the red part of this gradient is visible. But we know that the white part 
+                                is still here on the right side. Now, all we have to do is to move this entire gradient here to 
+                                the left side and then the white part will be here. And the red part, which later will be 
+                                transparent will be here on the left side, okay. So if you basically shift the entire thing 100% 
+                                to the side, then we end up with the effect that we're looking for.*/
+            transition: all .5s;
+
+            span {
+                //because it is inside of a link
+                margin-right: 1.5rem;
+                display: inline-block;
+            }
+        }
+
+        &:hover,
+        &:active {
+            background-position: 100%;
+            color: $color-primary;
+            transform: translateX(1rem);
+        }
+    }
+
+    //FUNCTIONALITY
+    //when we hit the label and checkbox become checked background and navigation appears on the screen
+    &__checkbox:checked~&__background {
+        transform: scale(100);
+    }
+
+    &__checkbox:checked~&__nav {
+        opacity: 1;
+        width: 100%;
+        left: 0;
+    }
+
+    //ICON
+    &__icon {
+
+        position: relative;
+        margin-top: 3.5rem;
+
+        &,
+        &::before,
+        &::after {
+            width: 3rem;
+            height: 2px; //we dont what the height to change
+            background-color: $color-grey-dark-3;
+            display: inline-block;
+        }
+
+        //in order to pseudo element 'before' and 'after' to appear on the page we have to define the content
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            transition: all .2s;
+        }
+
+        &::before {
+            top: -.8rem;
+            /*transform-origin: right;*/
+            //What this does is that the center of the rotation will be at the right side of the element, if you do not specify it,then it is the center
+        }
+
+        &::after {
+            top: .8rem;
+        }
+    }
+
+    //ICON ANIMATION
+
+    &__button:hover &__icon::before {
+        //we can select it like this because it is direct child
+        top: -1rem;
+    }
+
+    &__button:hover &__icon::after {
+        top: 1rem;
+    }
+
+    &__checkbox:checked+&__button &__icon {
+        //'buttob' is adjacent sibling so we select it with '+', 'icon' is direct child to 'button'
+        background-color: transparent;
+    }
+
+    &__checkbox:checked+&__button &__icon::before {
+        //'buttob' is adjacent sibling so we select it with '+', 'icon' is direct child to 'button'
+        transform: rotate(135deg); //180deg-45deg = 3/4 of a circle (cooler animation)
+        top: 0;
+    }
+
+    &__checkbox:checked+&__button &__icon::after {
+        //'buttob' is adjacent sibling so we select it with '+', 'icon' is direct child to 'button'
+        top: 0;
+        transform: rotate(-135deg);
+    }
+}

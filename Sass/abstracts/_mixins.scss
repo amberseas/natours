@@ -1,0 +1,76 @@
+@mixin clearfix {
+    &::after {          //this will give .row::after in main.scss
+        content: "";    // in order it to appear on the page at all
+        display: table;
+        clear: both;    //clears both floats, left and right, no matter which we will use
+    }
+}
+
+@mixin absCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /*So, top, we move it 50% down. Left, we move it 50% of 
+                                    the parent element's width to the left, and then we 
+                                    transform it back to the exact center. So, translate, minus 
+                                    50%, and this time of the width of the element, not the 
+                                    parent. And 50% of the height as well minus 50% to put it 
+                                    back up. So the exact same thing as we did in the header.*/
+}
+
+
+//MEDIA QUERY MANAGER
+/*
+0 - 600px:          Phone
+600px - 900px:      Tablet portrait
+900px - 1200px:     Tablet landscape
+[1200 - 1800]       is where our normal styles apply
+1800px + :          Large desktop
+*/
+
+@mixin respond-phone {
+    @media (max-width: 600px) {@content};
+}
+
+//'@content' allows us to pass a block of code into a mixin
+
+
+/*
+$breakpoint arguement choises:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER OF WRITTIG MEDIA QUERIES: Base + typography -> general layout + grid -> page layout -> components
+
+1em = 16px
+*/
+
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media only screen and (max-width: 37.5em) {@content};      //width <=600px, i applied only on screens and if someone tries to print it, media query will not apply
+    }
+
+    @if $breakpoint == tab-port {
+        @media only screen and (max-width: 56.25em) {@content};     //width <=900px
+    }
+
+    @if $breakpoint == tab-land {
+        @media only screen and (max-width: 75em) {@content};        //width <=1200px
+    }
+
+    @if $breakpoint == big-desktop {
+        @media only screen and (min-width: 112.5em) {@content};     //width >=1800px
+    }
+}
+
+/*We've been talking about pixels here all this time now, but such as in the rest of the page, we're actually not gonna use pixels 
+in the media queries here. That's because if the user changes the default font size in the browser, then the media queries would 
+not be affected by that. However, we want them to be affected, so just like before, we use pixels simply to understand what's going 
+on here, but we then use a relative unit that is in the end going to convert to pixel. About rems and ems, there's an important 
+particularity about them in media queries. That's because ems and rems in media queries, they are not affected by a root font size 
+setting (font-size: 62.5%). What that means is that one rem or one em in a media query is always just equal to the font size which 
+is coming from the browser, and that's by default 16 pixels, but if the user changes it to 20 pixels, then it will be 20 pixels no 
+matter what we have in our base font definition. What we're going to use here is ems and not rems, because rems fail to work as 
+intended in some of the browsers, so ems are the best option for media queries.*/

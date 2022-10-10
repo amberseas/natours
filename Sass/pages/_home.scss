@@ -1,0 +1,135 @@
+.section-about {
+    background-color: $color-grey-light-1;
+    padding: 35rem 0;
+    margin-top: -20vh;
+
+    @include respond(tab-port) {
+      padding-top: 38rem;
+    }
+}
+
+.section-features {
+    padding: 20rem 0;
+    background-image: linear-gradient(
+      to right bottom, 
+      rgba($color-primary-light, 0.8), 
+      rgba($color-primary-dark, 0.8)), 
+      url(../img/nat-4-small.jpg);
+
+    @media  only screen and (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 75em) {
+      background-image: linear-gradient(
+      to right bottom, 
+      rgba($color-primary-light, 0.8), 
+      rgba($color-primary-dark, 0.8)), 
+      url(../img/nat-4.jpg);
+            }
+
+    background-size: cover;
+    margin-top: -29rem;
+
+    -webkit-clip-path: polygon(0 20%, 100% 0, 100% 80%, 0 100%); //to work in all browsers
+    clip-path: polygon(0 20%, 100% 0, 100% 80%, 0 100%);
+
+    @include respond(tab-port) {
+      -webkit-clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%); //to work in all browsers
+      clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+    }
+
+    //other way to make wedges:
+    /*
+      //skew the entire section
+      transform: skewY(-7deg);
+
+      //make boxes not skewed
+      & > * {   //.section-features * - direct child selector - selects only direct children
+        transform: skewY(7deg);
+      }
+    */
+    
+}
+
+.section-tours {
+  background-color: $color-grey-light-1;
+  padding: 35rem 0 15rem 0;
+  margin-top: -20vh;
+
+  @include respond(tab-port) {
+    padding-bottom: 10rem;
+  }
+}
+
+.section-stories {
+  padding: 15rem 0;
+  position: relative;
+
+  @include respond(tab-land) {
+    padding: 10rem 0;
+  }
+
+  @include respond(phone) {
+    padding: 8rem 0;
+  }
+}
+
+.section-book {
+  padding: 20rem 0;
+  background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+
+  @include respond(tab-land) {
+    padding: 15rem 0;
+    width: 100%;
+  }
+}
+
+.book {
+  /*Solid-color-gradient - another background color that we have on top of the image, example, fro white to transparent. So, we 
+  want the gradient to be on top of the image and so we simply add another background-image, separated by commas, where the image 
+  is the second one. We can specify an angle. We can specify at different points of the gradient which color there should be.
+  So, we can say that in the beginning, let's say at 0%, we want white color. Then we can say that at 50% we want this transparent 
+  color. And, we can all go even further and say that at 50% we also want it to be white. So, we say at zero we want white, we 
+  say at 50 we want white and then at 50 we want transparent. And we've got a nice wedge without using clip-path.*/
+  background-image: linear-gradient(105deg,
+                                    rgba($color-white, .9) 0%,
+                                    rgba($color-white, .9) 50%,
+                                    transparent 50%),
+                    url(../../img/nat-10-small.jpg);
+  background-size: cover;
+  border-radius: $default-border-radius;
+  box-shadow: 0 1.5rem 4rem rgba($color-black, .5);
+
+  @media  only screen and (min-resolution: 192dpi) and (min-width: 56.25em), (min-width: 125em) {
+    background-image: linear-gradient(105deg,
+                      rgba($color-white, .9) 0%,
+                      rgba($color-white, .9) 50%,
+                                    transparent 50%),
+                      url(../../img/nat-10.jpg);
+  }
+
+  @include respond(tab-land) {
+    background-image: linear-gradient(105deg,
+                                    rgba($color-white, .9) 0%,
+                                    rgba($color-white, .9) 65%,
+                                    transparent 65%),
+                      url(../../img/nat-10-small.jpg);
+  }
+
+  @include respond(tab-port) {
+    background-image: linear-gradient(to right,
+                                    rgba($color-white, .9) 0%,
+                                    rgba($color-white, .9) 100%),
+                    url(../../img/nat-10-small.jpg);
+  }
+
+  &__form {
+    width: 50%;
+    padding: 6rem;
+
+    @include respond(tab-land) {
+      width: 65%;
+    }
+
+    @include respond(tab-port) {
+      width: 100%;
+    }
+  }
+}

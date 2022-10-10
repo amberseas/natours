@@ -1,0 +1,100 @@
+.story {
+    width: 75%;
+    margin: 0 auto;
+    box-shadow: 0 3rem 6rem rgba($color-black, .1);
+    background-color: rgba($color-white, .5);
+    border-radius: $default-border-radius;
+    padding: 6rem;
+    padding-left: 9rem;
+    font-size: $default-font-size;
+    display: table;
+    position: relative;
+    transform: skewX(-12deg);
+
+    @include respond(tab-port){
+        width: 100%;
+        padding: 4rem;
+        padding-left: 7rem;
+    }
+
+    @include respond(phone){
+        transform: skewX(0);
+    }
+
+    &:not(:last-child) {
+        margin-bottom: $gutter-vertical;
+    }
+
+
+    &__shape {
+        width: 15rem;
+        height: 15rem;
+        float: left; //in order to make the rest of the content float around it
+        -webkit-shape-outside: circle(50% at 50% 50%); //in order to work in Safari
+        shape-outside: circle(50% at 50% 50%);   /*In here we can define the size of the circle and the position of the center 
+                                                of the circle. The first number we put here is actually the radius of the circle, 
+                                                and so if we say 50%, then the radius will be half the height and the width of the 
+                                                element and so in this case that will be 7.5rem and so if the radius is 7.5rem then 
+                                                the diameter of the circle will, of course, be 15 and that's exactly the size of 
+                                                the shape here. And then we say 50% 50% because that means that is the center of 
+                                                the circle so exactly the center horizontally and vertically. In order for this to 
+                                                work the element has to be floated and has defined dimensions.*/
+
+        -webkit-clip-path:  circle(50% at 50% 50%);
+        clip-path:  circle(50% at 50% 50%); /*Again: shape-outside property defines where the content floats around the element
+                                            and if we want that element to actually to look like that circle, we use clip-path 
+                                            property */
+        
+        /*The best way to move around an element that is floated is to actually not mess with margins or anything like that
+        we should just use a transform,*/
+        transform: translate(-3rem) skewX(12deg);
+        overflow: hidden; //fixes vertical line appearing on hover
+
+        @include respond(phone){
+            transform: translate(-3rem) skewX(0);
+        }
+    }
+
+    &__image {
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.4);
+        transition: all .5s;
+        
+    }
+
+    &__text {
+        transform: skewX(12deg);
+    
+        @include respond(phone){
+            transform: skewX(0);
+        }
+    }
+
+    &__caption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 20%); //text slightly down and when we hover it will go up
+        color: $color-white;
+        text-transform: uppercase;
+        font-size: 1.7rem;
+        text-align: center;
+        opacity: 0;
+        transition: all .5s;
+        backface-visibility: hidden; //to fix a small glitch (moves a little to the right
+    }
+
+    &:hover &__caption { //when we hover on the story we want to change the caption
+        opacity: 1;
+        transform: translate(-50%, -50%); //to the center
+    }
+
+    &:hover &__image {
+        transform: translate(-50%, -50%) scale(1);
+        filter: blur(3px) brightness(80%); /*a lot of different filters that you can apply. 
+                                            brighness: values above 100% - brigther, below 100% - darker */
+    }
+}

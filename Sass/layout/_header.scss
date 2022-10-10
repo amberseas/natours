@@ -1,0 +1,64 @@
+.header {
+    height: 95vh;
+    background-image: linear-gradient(
+      to right bottom, 
+      rgba($color-primary-light, 0.8), 
+      rgba($color-primary-dark, 0.8)), 
+      url(../img/hero-small.jpg);
+    background-size: cover;
+    background-position: top;
+    _webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%); //to work in all browsers
+    clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+    position: relative;
+
+    //Media query depending on resolution
+    @media only screen and  (min-resolution: 192dpi) and (min-width: 37.5em), 
+            (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), //Safari does not support min-resolution description and this is used instead to make it work in safari
+            (min-width: 75em)  {  
+            /*192 dots per inch - Apple Retina display. When screen is high resolution and bigger than 600px load bigger image, 
+            because smaller image is more than enough on small screens even with high resolution*/
+            // or Bigger image on really big screens (2000px)
+      background-image: linear-gradient(
+      to right bottom, 
+      rgba($color-primary-light, 0.8), 
+      rgba($color-primary-dark, 0.8)), 
+      url(../img/hero.jpg);
+    }
+
+    @include respond(tab-port) {
+      _webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%); //to work in all browsers
+      clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    }
+  
+    &__logo-box {         /*'&' means '.header'*/
+      position: absolute;
+      top: 4rem;
+      left: 4rem;
+  
+      &:hover .header__logo {
+        animation: moveInRight 3s ease-out;
+      }
+      /*.logo:hover {animation: moveInRight 3s ease-out;} WRONG!
+        When we were hovering over the logo and animating it, the logo wanted to move; but when it did,
+        our hover state was lost since the element was no longer under our active mouse.  Essentially, 
+        the logo was 'freaking' out because it didn't know whether to animate / move or stay statically 
+        positioned, thus, we were left with an ugly, Shrodinger flicker effect.
+        When we hover over the container (logo-box) instead, the logo is free to move as intended since 
+        our container remains static. */ 
+    }
+  
+    &__logo {         /*'&' means '.header'*/
+      height: 3.5rem;
+    }
+  
+    &__text-box {         /*'&' means '.header'*/
+      position: absolute;
+      top: 40%;      /*of the parent element */
+      left: 50%;  /*of the parent element */
+      transform: translate(-50%, -50%); /*because we want the middle of the box to be in the center 
+                                        not the beggining of the box, translate is not in relation 
+                                        to the parent element, but to the element itself, so it 
+                                        will be shifted  half of the width to left and top*/
+      text-align: center;
+    }
+}

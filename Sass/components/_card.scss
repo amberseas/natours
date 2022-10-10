@@ -1,0 +1,236 @@
+.card {
+
+    //FUNCTIONALITY
+    perspective: 150rem; /*We have to define the perspective on the parent element of the one 
+                        where the transform, where the rotation occurs. So the perspective has 
+                        to be on the parent. And what that means is that we should define the 
+                        perspective property in here, on the card, and then have a child element 
+                        for this rotation. We have to pick a really huge number.*/
+    -moz-perspective: 150rem; //to make it work in Mozilla Firefox too
+    position: relative;
+    height: 52rem; /*Card's height collapsed. And that's very similar to what happens when all of 
+                    the elements are flooded. But right now, all the elements are on position 
+                    absolute. And so they're also taken out of the natural flow. So, we took these 
+                    cards out of their natural flow. And therefore the parent collapsed and lost 
+                    its height. Now when this happens with floats, we have a clear fix. But with 
+                    position absolute, there is actually no such thing. There is nothing we can do, 
+                    at least not with pure CSS. And so what we have to do, is to actually specify 
+                    the same height that we gave to the card itself.*/
+
+    &__side {
+        height: 52rem;
+        transition: all .8s ease;
+        position: absolute;     //to make the cards be on top of another
+        top: 0;
+        left: 0;
+        width: 100%;
+        backface-visibility: hidden; //we will no longer be able to sea the back part of the card
+        border-radius: $default-border-radius;
+        overflow: hidden; //the image inside the card overflows the parrent element and the corners 
+                          //were no longer rounded, so we fix it with this
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+        &--front {
+            background-color: $color-white;
+        }
+
+        &--back {
+            transform: rotateY(180deg); /*In the beggining the back side of the card is already 
+                                        flipped 180degres*/
+
+            &-1 {
+                background-image: linear-gradient(to right bottom, $color-yellow-light, $color-yellow-dark);
+            }
+
+            &-2 {
+                background-image: linear-gradient(to right bottom, $color-green-light, $color-green-dark);
+            }
+
+            &-3 {
+                background-image: linear-gradient(to right bottom, $color-blue-light, $color-blue-dark);
+            }
+
+
+        }
+    }
+
+    &:hover &__side--front {   //.card:hover .card__side - when we hover the card then we want the side 
+                        // to transform
+        transform: rotateY(-180deg);
+    }
+
+    &:hover &__side--back {   
+        transform: rotateY(0);
+    }
+
+
+    //FRONT SIDE STYLING
+    &__picture {
+        background-size: cover;
+        height: 23rem;
+        background-blend-mode: soft-light; /*A brand new CSS property that describes how the 
+                                            background images should blend */
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); //in order to work in all browsers
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+
+        &--1 {
+            background-image: linear-gradient(to right bottom, $color-yellow-light, $color-yellow-dark), url(../../img/nat-5-small.jpg);
+
+            @media only screen and (min-resolution: 192dpi) {
+                background-image: linear-gradient(to right bottom, $color-yellow-light, $color-yellow-dark), url(../../img/nat-5-medium.jpg);
+            }
+        }
+
+        &--2 {
+            background-image: linear-gradient(to right bottom, $color-green-light, $color-green-dark), url(../../img/nat-6-small.jpg);
+            
+            @media only screen and (min-resolution: 192dpi) {
+                background-image: linear-gradient(to right bottom, $color-green-light, $color-green-dark), url(../../img/nat-6-medium.jpg);
+            }
+        }
+
+        &--3 {
+            background-image: linear-gradient(to right bottom, $color-blue-light, $color-blue-dark), url(../../img/nat-7-small.jpg);
+            
+            @media only screen and (min-resolution: 192dpi) {
+                background-image: linear-gradient(to right bottom, $color-blue-light, $color-blue-dark), url(../../img/nat-7-medium.jpg);
+            }
+        }
+    }
+
+    &__heading {
+        font-size: 2.8rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        text-align: right;
+        color: $color-white;
+        position: absolute;
+        top: 12rem;
+        right: 2rem;
+        width: 75%
+    }
+
+    &__heading-span { /*In order for 'box-decoration-break' to work. This is not really a child of 
+                        the heading. This is a whole new element called "heading span." So it's not 
+                        a modifier of heading, and it's not an element of heading, so it's a new 
+                        element in the BEM system. And so I will have a separate selector for that 
+                        one.*/
+
+        padding: 1rem 1.5rem;
+        -webkit-box-decoration-break: clone;    /*In order it to work in google chrome*/
+        box-decoration-break: clone;            /*When text line breaks there's no padding in the 
+                                                break point, the clone applies all the declarations
+                                                in the selector (padding) to all of the boxes that
+                                                are created by an element. one element - two boxes, 
+                                                both styled in the same way*/
+
+        &--1 {
+            background-image: linear-gradient(to right bottom, rgba($color-yellow-light, .85), rgba($color-yellow-dark, .85));
+        }
+
+        &--2 {
+            background-image: linear-gradient(to right bottom, rgba($color-green-light, .85), rgba($color-green-dark, .85));
+        }
+
+        &--3 {
+            background-image: linear-gradient(to right bottom, rgba($color-blue-light, .85), rgba($color-blue-dark, .85));
+        }
+
+
+    }
+
+    &__details {
+        padding: 3rem;
+
+        ul{
+            list-style: none;
+            width: 80%;
+            margin: 0 auto;
+
+            li {
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color-grey-light-2;
+                }
+
+            }
+        }
+    }
+
+    //BACK SIDE STYLING
+    &__cta {
+        width: 90%;
+        text-align: center;
+        @include absCenter;
+    }
+
+    &__price-box {
+        text-align: center;
+        margin-bottom: 8rem;
+        color: $color-white;
+    }
+
+    &__price-only {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+
+    &__price-value {
+            font-size: 6rem;
+            font-weight: 200;
+    }
+}
+
+//MEDIA QUERIES
+
+   // @include respond (tab-port) {
+    @media only screen and (max-width: 56.25em), 
+            only screen and (hover: none) {        //when user uses device without hover effect, like an ipad
+        .card {
+            height: auto; 
+            border-radius: $default-border-radius;
+            background-color: $color-white;
+            box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+            &__side {
+                height: auto;
+                position: relative;
+                box-shadow: none;
+                
+                
+                    &--back {
+                        transform: rotateY(0);
+                        clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+                    }
+            }
+
+            &:hover &__side--front {   
+                transform: rotateY(0);
+            }
+
+            &__details {
+                padding: 1rem 3rem;
+            }
+
+            //BACK SIDE STYLING
+            &__cta {
+            width: 100%;
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: translate(0);
+            padding: 7rem 4rem 4rem 4rem;
+            }
+
+            &__price-box {
+            margin-bottom: 3rem;
+            }
+
+            &__price-value {
+            font-size: 4rem;
+            }
+    }
+}

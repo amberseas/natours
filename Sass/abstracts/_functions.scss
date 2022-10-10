@@ -1,0 +1,8 @@
+//GET PERCENTAGE
+
+$part: a;
+$total: b;
+
+@function getPercent($part, $total) {
+    @return percentage($part/$total);
+}

@@ -1,0 +1,2493 @@
+/*
+0 - 600px:          Phone
+600px - 900px:      Tablet portrait
+900px - 1200px:     Tablet landscape
+[1200 - 1800]       is where our normal styles apply
+1800px + :          Large desktop
+*/
+/*
+$breakpoint arguement choises:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER OF WRITTIG MEDIA QUERIES: Base + typography -> general layout + grid -> page layout -> components
+
+1em = 16px
+*/
+/*We've been talking about pixels here all this time now, but such as in the rest of the page, we're actually not gonna use pixels 
+in the media queries here. That's because if the user changes the default font size in the browser, then the media queries would 
+not be affected by that. However, we want them to be affected, so just like before, we use pixels simply to understand what's going 
+on here, but we then use a relative unit that is in the end going to convert to pixel. About rems and ems, there's an important 
+particularity about them in media queries. That's because ems and rems in media queries, they are not affected by a root font size 
+setting (font-size: 62.5%). What that means is that one rem or one em in a media query is always just equal to the font size which 
+is coming from the browser, and that's by default 16 pixels, but if the user changes it to 20 pixels, then it will be 20 pixels no 
+matter what we have in our base font definition. What we're going to use here is ems and not rems, because rems fail to work as 
+intended in some of the browsers, so ems are the best option for media queries.*/
+@-webkit-keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-10rem);
+            transform: translateX(-10rem);
+  }
+  80% {
+    -webkit-transform: translateX(1rem);
+            transform: translateX(1rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-10rem);
+            transform: translateX(-10rem);
+  }
+  80% {
+    -webkit-transform: translateX(1rem);
+            transform: translateX(1rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+
+@-webkit-keyframes moveInRight {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(10rem);
+            transform: translateX(10rem);
+  }
+  80% {
+    -webkit-transform: translateX(-1rem);
+            transform: translateX(-1rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(10rem);
+            transform: translateX(10rem);
+  }
+  80% {
+    -webkit-transform: translateX(-1rem);
+            transform: translateX(-1rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+
+@-webkit-keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(3rem);
+            transform: translateY(3rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(3rem);
+            transform: translateY(3rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+
+/*underscore (_) means partial file*/
+/*Basic definitions of our entire project*/
+*, *::after, *::before {
+  /*also select all of the after pseudo-elements and also all of the 
+                        before pseudo-elements. That's because, right now, only the real 
+                        elements get this behavior here, but the after and before pseudo-
+                        elements, they don't get this behavior, and since we don't want to 
+                        see any strange behavior happening, we will also include these ones 
+                        here as well.*/
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+  /*So the box-sizing property by itself is not inherited, but by setting 
+                        the box-sizing property on each and every element on the entire page 
+                        to inherit, it'll automatically inherit whatever we put here on 
+                        border-box. So this is considered a slightly better practice by the 
+                        CSS community because it makes it a bit easier to change the box-sizing
+                        like in plugins or other components where we might want to use a 
+                        different property for box-sizing. So it doesn't make a huge difference, 
+                        just a slightly better practice to do the box-sizing border-box like 
+                        this. *box-sizing: border-box; is in the body*/
+}
+
+html {
+  /*font-size: 10px;*/
+  /*It's actually a very bad practice
+                        to set the font size to pixels as well, so up here, this shouldn't really be 
+                        10 pixels. The problem is that by doing so we actually override the browser 
+                        font size setting that the user can manually change in the settings, and 
+                        many people actually do that. For example, when they have bad sight and 
+                        cannot see so good, then some people actually increase the default font 
+                        size of their browser. Now if we set the font to the 10 pixels like we 
+                        did here, then we remove the ability for these people to see our website 
+                        properly, because they can no longer change the default font size.
+                        Well, they can, but our root font size will not be affected by that anymore.
+                        It will just be 10 pixels no matter what the user has as a default font size.
+                        So this is a really bad practice, and that is why we're going to set over 
+                        a font size to a percentage here, which will translate to a percentage of 
+                        the font size given by the browser. Now the default font size, if the user 
+                        doesn't change anything, which is the initial situation that we want, is 16 
+                        pixels, so that's the absolute default, and that's a situation that we're 
+                        counting on here. So if we put 100% here, this would mean that the root font 
+                        size would be 16 pixel if the user doesn't change anything, and if the user 
+                        does change the default font size, let's say to 18 pixels, then the root 
+                        font size will be 18 pixel. If he changes to 20 pixel, then it will be 20, 
+                        and so on and so forth. Now, but we don't want 16 pixels here, right? What 
+                        we want is 10 pixels, and so it's very simple. All we have to do is to divide 
+                        what we want, which is 10, by 16. So 10 divided by 16 is 62.5%. So now, 
+                        imagine, let's say .625, so if the default is 16 like we had before, then 
+                        this translates to 10 pixels, right, which is what we want. But if the user 
+                        changes to, let's say 20 pixels, then our default font size will be 12.5 
+                        pixels, so the root font size I was saying, and if the user does 22, 
+                        it goes to 13.75 pixels, and so on and so forth, and so with this we allow 
+                        the user to actually zoom in on the page automatically, not only to change 
+                        the font size, but to also zoom in on the page, because basically that's what
+                        happens. Not exactly zooming, but increasing all of the measurements that we 
+                        have on our page.*/
+  font-size: 62.5%;
+  /*This defines what 1rem is. 62.5% of 16px (browser default) is 10px. */
+  /*if we have conflicting media queries, like screen size is 500px and 500 is less than 600px, but also less than 900px, 
+    so the later media query will be applied*/
+}
+
+@media only screen and (min-width: 112.5em) {
+  html {
+    font-size: 75%;
+  }
+}
+
+@media only screen and (max-width: 75em) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  html {
+    font-size: 43.75%;
+  }
+}
+
+body {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 3rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  body {
+    padding: 0;
+  }
+}
+
+::-moz-selection {
+  background-color: #b5838d;
+  color: #fff;
+}
+
+::selection {
+  background-color: #b5838d;
+  color: #fff;
+}
+
+/*we are here in the folder system (sass folder), so from here we just have 
+                      to move into the base folder, and then from there we select the base file.
+                      Now we don't have to use the underscore. All we have to do is...base. So 
+                      no underscore and no .scss. This is enough for SASS to understand what we 
+                      want to import here. */
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  /* font-size: 16px; */
+  line-height: 1.7;
+  color: #777;
+}
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  /*determines if the back part of the element when we transform it
+                                  is visible or hidden for the user. Also fixs a little shaking 
+                                  in the animation. no one knows why the shaking happens, but 
+                                  this fixes it. */
+  margin-bottom: 6rem;
+}
+
+.heading-primary--main {
+  /*'&' means '.heading-primary'*/
+  display: block;
+  font-size: 6rem;
+  font-weight: 400;
+  letter-spacing: 3.5rem;
+  margin-right: -3.5rem;
+  /* because the added letter-spacing property also adds space AFTER the 
+                                last letter */
+  -webkit-animation-name: moveInLeft;
+          animation-name: moveInLeft;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-timing-function: ease-out;
+          animation-timing-function: ease-out;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .heading-primary--main {
+    letter-spacing: 1rem;
+    font-size: 5rem;
+  }
+}
+
+.heading-primary--sub {
+  /*'&' means '.heading-primary'*/
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.75rem;
+  margin-right: -1.75rem;
+  /* because the added letter-spacing property also adds space AFTER 
+                                    the last letter */
+  -webkit-animation: moveInRight 1s ease-out;
+          animation: moveInRight 1s ease-out;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .heading-primary--sub {
+    letter-spacing: 0.5rem;
+  }
+}
+
+.heading-secondary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  /* GRADIENT TEXT
+  So the trick is to first set the background of the entire h2 to a gradient. The next step in making that effect 
+  happen with the gradient behind the text. We use the brand new webkit background-clip property, and it's so new
+  that we actually have to use webkit prefix, so -webkit-background-clip. We set this property to text. And so 
+  what happens now is that the background gets clipped exactly where the text sits, and so therefore this background 
+  image or this gradient will only be visible where the text is. Now what we want to see then is to not actually 
+  the text, but the background image, so let's make the text transparent so that we can see the background image,
+  So what we can do is very simply set the color to transparent.*/
+  background-image: -webkit-gradient(linear, left top, right top, from(#e5989b), to(#6d6875));
+  background-image: linear-gradient(to right, #e5989b, #6d6875);
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: 2px;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .heading-secondary {
+    font-size: 3rem;
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  .heading-secondary {
+    font-size: 2.5rem;
+  }
+}
+
+.heading-secondary:hover {
+  -webkit-transform: skewY(2deg) skewX(15deg) scale(1.1);
+          transform: skewY(2deg) skewX(15deg) scale(1.1);
+  text-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.heading-tertiary {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.paragraph {
+  font-size: 1.6rem;
+}
+
+.paragraph:not(:last-child) {
+  margin-bottom: 3rem;
+}
+
+/*Utility classes are very simple classes in CSS, which only have one simple 
+goal, and in this case, it will simply be to center text.*/
+.u-center-text {
+  text-align: center !important;
+}
+
+/*So when we add a utility class, we really want to happen whatever we say in one 
+                                                of these classes, right? And so we actually want this to override everything else. 
+                                                And so what we do is to use the important keyword. So this is a normal practice, 
+                                                to do it like this in the utility classes*/
+/*H2 will become centered, and that's because this is a inline block element now, 
+and so, if we set the parent to text-align-center, then that inline block element 
+inside is treated as text and will therefore be centered in the parent.*/
+.u-margin-bottom-small {
+  margin-bottom: 1.5rem !important;
+}
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem !important;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .u-margin-bottom-medium {
+    margin-bottom: 3rem !important;
+  }
+}
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem !important;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .u-margin-bottom-big {
+    margin-bottom: 5rem !important;
+  }
+}
+
+.u-margin-top-big {
+  margin-top: 8rem !important;
+}
+
+.u-margin-top-huge {
+  margin-top: 10rem !important;
+}
+
+.btn, .btn:link, .btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  display: inline-block;
+  /*Because this is an inline block element so it's treated as if it was 
+                              text. So if we want it to be in the center of this box, all we have 
+                              todo is to set the .text-box text-align property to center */
+  border-radius: 10rem;
+  /*we can put even 200px or 500px but it will look the same, because the 
+                              border radius has its max*/
+  -webkit-transform: all .2s;
+          transform: all .2s;
+  position: relative;
+  font-size: 1.6rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  -webkit-transform: translateY(-0.3rem);
+          transform: translateY(-0.3rem);
+  /*to go up*/
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover::after {
+  /*'after' pseudo element only when we have the button on the hover state.
+                          we want the element to bee bigger - to grow and to fade out*/
+  -webkit-transform: scaleX(1.4) scaleY(1.6);
+          transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
+
+.btn:active, .btn:focus {
+  outline: none;
+  -webkit-transform: translateY(-0.1rem);
+          transform: translateY(-0.1rem);
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.btn--white {
+  background-color: #fff;
+  color: #777;
+}
+
+.btn--white::after {
+  background-color: #fff;
+}
+
+.btn--pink {
+  background-color: #b5838d;
+  color: #fff;
+}
+
+.btn--pink::after {
+  background-color: #b5838d;
+}
+
+.btn::after {
+  /*the trick here is to add an element, that looks exactly like the button that 
+                we already have, but we put it behind the button. and whenn we hover out of 
+                the button, then this hidden pseudo-element goes back behind the button */
+  content: "";
+  /* neccessary for 'after' pseudo element to actually apear on the page, doesn't 
+                      mater whats inside, it can even be empty*/
+  display: inline-block;
+  /*the same like with the content property, inline-block because we want 
+                              it to look axactly the same like the button*/
+  height: 100%;
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /*defines the position of the elements if they are one on top of another. '-1' 
+      means it's behind the button*/
+  -webkit-transition: all .4s;
+  transition: all .4s;
+}
+
+.btn--animated {
+  /*only this button will have the animation*/
+  -webkit-animation: moveInBottom 0.5s ease-out .75s;
+          animation: moveInBottom 0.5s ease-out .75s;
+  /* .75s is animation delay */
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+  /*automaticlly apply the styles of the 0% before the 
+                                        animation starts*/
+}
+
+.btn-text:link, .btn-text:visited {
+  font-size: 1.6rem;
+  color: #b5838d;
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px solid #b5838d;
+  padding: 3px;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+}
+
+.btn-text:hover {
+  background-color: #b5838d;
+  color: #fff;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+}
+
+.btn-text:active {
+  -webkit-box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
+
+.composition {
+  position: relative;
+}
+
+.composition__photo {
+  width: 55%;
+  -webkit-box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+          box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  position: absolute;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  outline-offset: 2rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .composition__photo {
+    float: left;
+    position: relative;
+    width: 33.33333%;
+    -webkit-box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.2);
+            box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.2);
+  }
+}
+
+.composition__photo--p1 {
+  left: 0;
+  top: -2rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .composition__photo--p1 {
+    top: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+
+.composition__photo--p2 {
+  right: 0;
+  top: 2rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .composition__photo--p2 {
+    top: -1rem;
+    -webkit-transform: scale(1.3);
+            transform: scale(1.3);
+    z-index: 100;
+  }
+}
+
+.composition__photo--p3 {
+  left: 20%;
+  top: 10rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .composition__photo--p3 {
+    top: 1rem;
+    left: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+
+.composition__photo:hover {
+  outline: 1.5rem solid #b5838d;
+  -webkit-transform: scale(1.05) translateY(-0.5rem);
+          transform: scale(1.05) translateY(-0.5rem);
+  -webkit-box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+          box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.composition:hover .composition__photo:not(:hover) {
+  /*.composition:hover composition__photo:not(hover) -- We start 
+                                    with the hover state on the entire composition, so as soon as 
+                                    we hover the composition element, then select a photo that is 
+                                    nested inside of this, and then select one that is not hovered.*/
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
+.feature-box {
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  -webkit-transition: -webkit-transform .3s;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s, -webkit-transform .3s;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .feature-box {
+    padding: 2rem;
+  }
+}
+
+.feature-box__icon {
+  width: 7rem;
+  font-size: 6rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  background-image: -webkit-gradient(linear, left top, right top, from(#e5989b), to(#6d6875));
+  background-image: linear-gradient(to right, #e5989b, #6d6875);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .feature-box__icon {
+    margin-bottom: 0;
+  }
+}
+
+.feature-box:hover {
+  -webkit-transform: translateY(-1.5rem) scale(1.03);
+          transform: translateY(-1.5rem) scale(1.03);
+}
+
+.card {
+  -webkit-perspective: 150rem;
+          perspective: 150rem;
+  /*We have to define the perspective on the parent element of the one 
+                        where the transform, where the rotation occurs. So the perspective has 
+                        to be on the parent. And what that means is that we should define the 
+                        perspective property in here, on the card, and then have a child element 
+                        for this rotation. We have to pick a really huge number.*/
+  -moz-perspective: 150rem;
+  position: relative;
+  height: 52rem;
+  /*Card's height collapsed. And that's very similar to what happens when all of 
+                    the elements are flooded. But right now, all the elements are on position 
+                    absolute. And so they're also taken out of the natural flow. So, we took these 
+                    cards out of their natural flow. And therefore the parent collapsed and lost 
+                    its height. Now when this happens with floats, we have a clear fix. But with 
+                    position absolute, there is actually no such thing. There is nothing we can do, 
+                    at least not with pure CSS. And so what we have to do, is to actually specify 
+                    the same height that we gave to the card itself.*/
+}
+
+.card__side {
+  height: 52rem;
+  -webkit-transition: all .8s ease;
+  transition: all .8s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  border-radius: 3px;
+  overflow: hidden;
+  -webkit-box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+}
+
+.card__side--front {
+  background-color: #fff;
+}
+
+.card__side--back {
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+  /*In the beggining the back side of the card is already 
+                                        flipped 180degres*/
+}
+
+.card__side--back-1 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#ffba08), to(#f48c06));
+  background-image: linear-gradient(to right bottom, #ffba08, #f48c06);
+}
+
+.card__side--back-2 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#a7c957), to(#6a994e));
+  background-image: linear-gradient(to right bottom, #a7c957, #6a994e);
+}
+
+.card__side--back-3 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#48cae4), to(#0077b6));
+  background-image: linear-gradient(to right bottom, #48cae4, #0077b6);
+}
+
+.card:hover .card__side--front {
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+
+.card:hover .card__side--back {
+  -webkit-transform: rotateY(0);
+          transform: rotateY(0);
+}
+
+.card__picture {
+  background-size: cover;
+  height: 23rem;
+  background-blend-mode: soft-light;
+  /*A brand new CSS property that describes how the 
+                                            background images should blend */
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+}
+
+.card__picture--1 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#ffba08), to(#f48c06)), url(../../img/nat-5-small.jpg);
+  background-image: linear-gradient(to right bottom, #ffba08, #f48c06), url(../../img/nat-5-small.jpg);
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi) {
+  .card__picture--1 {
+    background-image: -webkit-gradient(linear, left top, right bottom, from(#ffba08), to(#f48c06)), url(../../img/nat-5-medium.jpg);
+    background-image: linear-gradient(to right bottom, #ffba08, #f48c06), url(../../img/nat-5-medium.jpg);
+  }
+}
+
+.card__picture--2 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#a7c957), to(#6a994e)), url(../../img/nat-6-small.jpg);
+  background-image: linear-gradient(to right bottom, #a7c957, #6a994e), url(../../img/nat-6-small.jpg);
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi) {
+  .card__picture--2 {
+    background-image: -webkit-gradient(linear, left top, right bottom, from(#a7c957), to(#6a994e)), url(../../img/nat-6-medium.jpg);
+    background-image: linear-gradient(to right bottom, #a7c957, #6a994e), url(../../img/nat-6-medium.jpg);
+  }
+}
+
+.card__picture--3 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#48cae4), to(#0077b6)), url(../../img/nat-7-small.jpg);
+  background-image: linear-gradient(to right bottom, #48cae4, #0077b6), url(../../img/nat-7-small.jpg);
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi) {
+  .card__picture--3 {
+    background-image: -webkit-gradient(linear, left top, right bottom, from(#48cae4), to(#0077b6)), url(../../img/nat-7-medium.jpg);
+    background-image: linear-gradient(to right bottom, #48cae4, #0077b6), url(../../img/nat-7-medium.jpg);
+  }
+}
+
+.card__heading {
+  font-size: 2.8rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  text-align: right;
+  color: #fff;
+  position: absolute;
+  top: 12rem;
+  right: 2rem;
+  width: 75%;
+}
+
+.card__heading-span {
+  /*In order for 'box-decoration-break' to work. This is not really a child of 
+                        the heading. This is a whole new element called "heading span." So it's not 
+                        a modifier of heading, and it's not an element of heading, so it's a new 
+                        element in the BEM system. And so I will have a separate selector for that 
+                        one.*/
+  padding: 1rem 1.5rem;
+  -webkit-box-decoration-break: clone;
+  /*In order it to work in google chrome*/
+  box-decoration-break: clone;
+  /*When text line breaks there's no padding in the 
+                                                break point, the clone applies all the declarations
+                                                in the selector (padding) to all of the boxes that
+                                                are created by an element. one element - two boxes, 
+                                                both styled in the same way*/
+}
+
+.card__heading-span--1 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(255, 186, 8, 0.85)), to(rgba(244, 140, 6, 0.85)));
+  background-image: linear-gradient(to right bottom, rgba(255, 186, 8, 0.85), rgba(244, 140, 6, 0.85));
+}
+
+.card__heading-span--2 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(167, 201, 87, 0.85)), to(rgba(106, 153, 78, 0.85)));
+  background-image: linear-gradient(to right bottom, rgba(167, 201, 87, 0.85), rgba(106, 153, 78, 0.85));
+}
+
+.card__heading-span--3 {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(72, 202, 228, 0.85)), to(rgba(0, 119, 182, 0.85)));
+  background-image: linear-gradient(to right bottom, rgba(72, 202, 228, 0.85), rgba(0, 119, 182, 0.85));
+}
+
+.card__details {
+  padding: 3rem;
+}
+
+.card__details ul {
+  list-style: none;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.card__details ul li {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.card__details ul li:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+.card__cta {
+  width: 90%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  /*So, top, we move it 50% down. Left, we move it 50% of 
+                                    the parent element's width to the left, and then we 
+                                    transform it back to the exact center. So, translate, minus 
+                                    50%, and this time of the width of the element, not the 
+                                    parent. And 50% of the height as well minus 50% to put it 
+                                    back up. So the exact same thing as we did in the header.*/
+}
+
+.card__price-box {
+  text-align: center;
+  margin-bottom: 8rem;
+  color: #fff;
+}
+
+.card__price-only {
+  font-size: 1.4rem;
+  text-transform: uppercase;
+}
+
+.card__price-value {
+  font-size: 6rem;
+  font-weight: 200;
+}
+
+@media only screen and (max-width: 56.25em), only screen and (hover: none) {
+  .card {
+    height: auto;
+    border-radius: 3px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+            box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  }
+  .card__side {
+    height: auto;
+    position: relative;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+  }
+  .card__side--back {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+    -webkit-clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+  }
+  .card:hover .card__side--front {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+  }
+  .card__details {
+    padding: 1rem 3rem;
+  }
+  .card__cta {
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    -webkit-transform: translate(0);
+            transform: translate(0);
+    padding: 7rem 4rem 4rem 4rem;
+  }
+  .card__price-box {
+    margin-bottom: 3rem;
+  }
+  .card__price-value {
+    font-size: 4rem;
+  }
+}
+
+.story {
+  width: 75%;
+  margin: 0 auto;
+  -webkit-box-shadow: 0 3rem 6rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 3rem 6rem rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  padding: 6rem;
+  padding-left: 9rem;
+  font-size: 1.6rem;
+  display: table;
+  position: relative;
+  -webkit-transform: skewX(-12deg);
+          transform: skewX(-12deg);
+}
+
+@media only screen and (max-width: 56.25em) {
+  .story {
+    width: 100%;
+    padding: 4rem;
+    padding-left: 7rem;
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  .story {
+    -webkit-transform: skewX(0);
+            transform: skewX(0);
+  }
+}
+
+.story:not(:last-child) {
+  margin-bottom: 8rem;
+}
+
+.story__shape {
+  width: 15rem;
+  height: 15rem;
+  float: left;
+  shape-outside: circle(50% at 50% 50%);
+  /*In here we can define the size of the circle and the position of the center 
+                                                of the circle. The first number we put here is actually the radius of the circle, 
+                                                and so if we say 50%, then the radius will be half the height and the width of the 
+                                                element and so in this case that will be 7.5rem and so if the radius is 7.5rem then 
+                                                the diameter of the circle will, of course, be 15 and that's exactly the size of 
+                                                the shape here. And then we say 50% 50% because that means that is the center of 
+                                                the circle so exactly the center horizontally and vertically. In order for this to 
+                                                work the element has to be floated and has defined dimensions.*/
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+  /*Again: shape-outside property defines where the content floats around the element
+                                            and if we want that element to actually to look like that circle, we use clip-path 
+                                            property */
+  /*The best way to move around an element that is floated is to actually not mess with margins or anything like that
+        we should just use a transform,*/
+  -webkit-transform: translate(-3rem) skewX(12deg);
+          transform: translate(-3rem) skewX(12deg);
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .story__shape {
+    -webkit-transform: translate(-3rem) skewX(0);
+            transform: translate(-3rem) skewX(0);
+  }
+}
+
+.story__image {
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) scale(1.4);
+          transform: translate(-50%, -50%) scale(1.4);
+  -webkit-transition: all .5s;
+  transition: all .5s;
+}
+
+.story__text {
+  -webkit-transform: skewX(12deg);
+          transform: skewX(12deg);
+}
+
+@media only screen and (max-width: 37.5em) {
+  .story__text {
+    -webkit-transform: skewX(0);
+            transform: skewX(0);
+  }
+}
+
+.story__caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, 20%);
+          transform: translate(-50%, 20%);
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1.7rem;
+  text-align: center;
+  opacity: 0;
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+.story:hover .story__caption {
+  opacity: 1;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.story:hover .story__image {
+  -webkit-transform: translate(-50%, -50%) scale(1);
+          transform: translate(-50%, -50%) scale(1);
+  -webkit-filter: blur(3px) brightness(80%);
+          filter: blur(3px) brightness(80%);
+  /*a lot of different filters that you can apply. 
+                                            brighness: values above 100% - brigther, below 100% - darker */
+}
+
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  opacity: .15;
+}
+
+.bg-video__content {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  /*the video will fill the entire parent while still maintaining 
+                            its aspect ratio, parts that cant fit in the parent element will 
+                            be clipped off*/
+}
+
+.form__group:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.form__input {
+  font-size: 1.5rem;
+  font-family: inherit;
+  color: inherit;
+  padding: 1.5rem 2rem;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-bottom: 3px solid transparent;
+  width: 90%;
+  display: block;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .form__input {
+    width: 100%;
+  }
+}
+
+.form__input:focus {
+  outline: none;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  border-bottom: 3px solid #6a994e;
+}
+
+.form__input:focus:invalid {
+  border-bottom: 3px solid #f48c06;
+}
+
+.form__input::-webkit-input-placeholder {
+  color: #999;
+}
+
+.form__label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-left: 2rem;
+  margin-top: .7rem;
+  display: block;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+.form__input:placeholder-shown + .form__label {
+  /*So when the placeholder is shown on the input element, then we can style the label.
+    &__input:placeholder-shown &__label' is not going to work, because the label is not a 
+    child element of the input, they are both childs of the form__group, but in CSS we have 
+    a very powerful selector and it is called the sibling selector. And this one is actually 
+    the adjacent sibling - a sibling that comes immediately after the element that we select 
+    in the first place. So we first select input, and then with the adjacent sibling selector '+'
+    we select the first sibling, which is the label. And so in this case, this works. But if 
+    there was some other element in-between here, let's say here was another div, and then there 
+    was like some button or something, then we could still use a sibling selector, but we would 
+    have to use the general sibling selector '~', so this one works if there are more levels 
+    in-between. Now one particular thing about the sibling selector is that the sibling that we 
+    have to select, in this case the label, always has to be AFTER the first element, so the input 
+    in this case.*/
+  opacity: 0;
+  visibility: hidden;
+  /*That's because if we just set the opacity to zero, then the element 
+                            will basically still be on the page, but only invisible, but if we set 
+                            it to visibility hidden as well, well, then it's really gone. So why 
+                            don't we just use the visibility hidden without the opacity? Well, 
+                            because we cannot animate the visibility*/
+  -webkit-transform: translateY(-4rem);
+          transform: translateY(-4rem);
+}
+
+.form__radio-group {
+  width: 49%;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .form__radio-group {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}
+
+.form__radio-input {
+  display: none;
+}
+
+.form__radio-label {
+  font-size: 1.6rem;
+  cursor: pointer;
+  position: relative;
+  padding-left: 4rem;
+}
+
+.form__radio-button {
+  height: 3rem;
+  width: 3rem;
+  border: 5px solid #b5838d;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: -.4rem;
+}
+
+.form__radio-button::after {
+  content: "";
+  display: block;
+  height: 1.3rem;
+  width: 1.3rem;
+  border-radius: 50%;
+  background-color: #b5838d;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  opacity: 0;
+  -webkit-transition: opacity .1s;
+  transition: opacity .1s;
+}
+
+.form__radio-input:checked ~ .form__radio-label .form__radio-button::after {
+  /*when we hit the label element, the radio-input becomes checked,
+        we select the sibling of that one and then the child that we want to style*/
+  opacity: 1;
+}
+
+.popup {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  /*A HTML tool - helps select the 'target'. Example, 'div' with a class 'popup' has an ID 'popup', than we use that id name 
+    on a button's 'href="#popup"', so when you click that button it directly displays our popup on the screen and 'popup 
+    becomes the target and we can style it*/
+}
+
+@supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+  .popup {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
+
+.popup__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  /*So, top, we move it 50% down. Left, we move it 50% of 
+                                    the parent element's width to the left, and then we 
+                                    transform it back to the exact center. So, translate, minus 
+                                    50%, and this time of the width of the element, not the 
+                                    parent. And 50% of the height as well minus 50% to put it 
+                                    back up. So the exact same thing as we did in the header.*/
+  background-color: #fff;
+  width: 73%;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+  display: table;
+  overflow: hidden;
+  opacity: 0;
+  -webkit-transform: translate(-50%, -50%) scale(0.5);
+          transform: translate(-50%, -50%) scale(0.5);
+  -webkit-transition: all .4s .2s;
+  transition: all .4s .2s;
+}
+
+.popup__left {
+  width: 33.33333%;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .popup__left {
+    width: 100%;
+    display: block;
+  }
+}
+
+.popup__right {
+  width: 66.66667%;
+  display: table-cell;
+  vertical-align: middle;
+  padding: 3rem 5rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .popup__right {
+    width: 100%;
+    display: block;
+  }
+}
+
+.popup__img {
+  display: block;
+  width: 100%;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .popup__img {
+    width: 100%;
+    background-size: contain;
+    display: inline-block;
+    margin-top: -15rem;
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  .popup__img {
+    margin-top: -8rem;
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  .popup__img--1 {
+    display: none;
+  }
+}
+
+.popup__text {
+  font-size: 1.4rem;
+  margin-bottom: 4rem;
+  -moz-column-count: 2;
+  -moz-column-gap: 4rem;
+  -moz-column-rule: 1px solid #eee;
+  -webkit-column-count: 2;
+          column-count: 2;
+  -webkit-column-gap: 4rem;
+          column-gap: 4rem;
+  -webkit-column-rule: 1px solid #eee;
+          column-rule: 1px solid #eee;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .popup__text {
+    -webkit-column-count: 1;
+            column-count: 1;
+  }
+}
+
+.popup:target {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup:target .popup__content {
+  opacity: 1;
+  -webkit-transform: translate(-50%, -50%) scale(1);
+          transform: translate(-50%, -50%) scale(1);
+}
+
+.popup__close:link, .popup__close:visited {
+  font-size: 3rem;
+  color: #777;
+  text-decoration: none;
+  position: absolute;
+  top: 2.5rem;
+  right: 2.5rem;
+  display: inline-block;
+  line-height: 1;
+  -webkit-transition: color .2s;
+  transition: color .2s;
+}
+
+.popup__close:hover {
+  color: #b5838d;
+}
+
+/*What makes this entire navigation work, especially the clicks? So when we click and the navigation opens, what makes that work 
+is the so called checkbox hack. So how does that work? When we clicked on a label, then the checkbox would become selected. So 
+basically, the three steps for this to work is to first have a checkbox, which will be hidden later, then second, have a label 
+connected to that checkbox, which is where we click. And then the third step is to reveal the entire navigation here in the 
+background as soon as the checkbox becomes checked. And we can use the checked pseudo class in CSS to style this.*/
+.navigation__checkbox {
+  display: none;
+}
+
+.navigation__button {
+  background-color: #fff;
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+  position: fixed;
+  top: 6rem;
+  right: 6rem;
+  z-index: 2000;
+  -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .navigation__button {
+    top: 4rem;
+    right: 4rem;
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  .navigation__button {
+    top: 3rem;
+    right: 3rem;
+  }
+}
+
+.navigation__background {
+  height: 6rem;
+  width: 6rem;
+  border-radius: 50%;
+  position: fixed;
+  top: 6.5rem;
+  right: 6.5rem;
+  background-image: radial-gradient(#e5989b, #6d6875);
+  z-index: 1000;
+  -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+  transition: -webkit-transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+  transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+  transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1), -webkit-transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+@media only screen and (max-width: 56.25em) {
+  .navigation__background {
+    top: 4.5rem;
+    right: 4.5rem;
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  .navigation__background {
+    top: 3.5rem;
+    right: 3.5rem;
+  }
+}
+
+.navigation__nav {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: -20rem;
+  z-index: 1500;
+  opacity: 0;
+  width: 0;
+  -webkit-transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.navigation__list {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  /*So, top, we move it 50% down. Left, we move it 50% of 
+                                    the parent element's width to the left, and then we 
+                                    transform it back to the exact center. So, translate, minus 
+                                    50%, and this time of the width of the element, not the 
+                                    parent. And 50% of the height as well minus 50% to put it 
+                                    back up. So the exact same thing as we did in the header.*/
+  list-style: none;
+  text-align: center;
+  width: 100%;
+}
+
+.navigation__item {
+  margin-top: 1rem;
+}
+
+.navigation__link:link, .navigation__link:visited {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 300;
+  padding: 1rem 2rem;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-image: linear-gradient(120deg, transparent 0%, transparent 50%, #fff 50%);
+  background-size: 230%;
+  /*And if we increase background-size, the entire background basically moves to the right side. 
+                                And that's because we're basically increasing the entire thing. But it's not visible because
+                                the box ends after text. But you can imagine that now this entire background goes like around 
+                                this entire text. And if we set this all the way to 200, which is double...So now we see only half 
+                                of the gradient, so only the red part of this gradient is visible. But we know that the white part 
+                                is still here on the right side. Now, all we have to do is to move this entire gradient here to 
+                                the left side and then the white part will be here. And the red part, which later will be 
+                                transparent will be here on the left side, okay. So if you basically shift the entire thing 100% 
+                                to the side, then we end up with the effect that we're looking for.*/
+  -webkit-transition: all .5s;
+  transition: all .5s;
+}
+
+.navigation__link:link span, .navigation__link:visited span {
+  margin-right: 1.5rem;
+  display: inline-block;
+}
+
+.navigation__link:hover, .navigation__link:active {
+  background-position: 100%;
+  color: #b5838d;
+  -webkit-transform: translateX(1rem);
+          transform: translateX(1rem);
+}
+
+.navigation__checkbox:checked ~ .navigation__background {
+  -webkit-transform: scale(100);
+          transform: scale(100);
+}
+
+.navigation__checkbox:checked ~ .navigation__nav {
+  opacity: 1;
+  width: 100%;
+  left: 0;
+}
+
+.navigation__icon {
+  position: relative;
+  margin-top: 3.5rem;
+}
+
+.navigation__icon, .navigation__icon::before, .navigation__icon::after {
+  width: 3rem;
+  height: 2px;
+  background-color: #333;
+  display: inline-block;
+}
+
+.navigation__icon::before, .navigation__icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+}
+
+.navigation__icon::before {
+  top: -.8rem;
+  /*transform-origin: right;*/
+}
+
+.navigation__icon::after {
+  top: .8rem;
+}
+
+.navigation__button:hover .navigation__icon::before {
+  top: -1rem;
+}
+
+.navigation__button:hover .navigation__icon::after {
+  top: 1rem;
+}
+
+.navigation__checkbox:checked + .navigation__button .navigation__icon {
+  background-color: transparent;
+}
+
+.navigation__checkbox:checked + .navigation__button .navigation__icon::before {
+  -webkit-transform: rotate(135deg);
+          transform: rotate(135deg);
+  top: 0;
+}
+
+.navigation__checkbox:checked + .navigation__button .navigation__icon::after {
+  top: 0;
+  -webkit-transform: rotate(-135deg);
+          transform: rotate(-135deg);
+}
+
+.header {
+  height: 95vh;
+  background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(229, 152, 155, 0.8)), to(rgba(109, 104, 117, 0.8))), url(../img/hero-small.jpg);
+  background-image: linear-gradient(to right bottom, rgba(229, 152, 155, 0.8), rgba(109, 104, 117, 0.8)), url(../img/hero-small.jpg);
+  background-size: cover;
+  background-position: top;
+  _webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+          clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+  position: relative;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), only screen and (min-resolution: 192dpi) and (min-width: 37.5em), (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), (min-width: 75em) {
+  .header {
+    /*192 dots per inch - Apple Retina display. When screen is high resolution and bigger than 600px load bigger image, 
+            because smaller image is more than enough on small screens even with high resolution*/
+    background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(229, 152, 155, 0.8)), to(rgba(109, 104, 117, 0.8))), url(../img/hero.jpg);
+    background-image: linear-gradient(to right bottom, rgba(229, 152, 155, 0.8), rgba(109, 104, 117, 0.8)), url(../img/hero.jpg);
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  .header {
+    _webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+  }
+}
+
+.header__logo-box {
+  /*'&' means '.header'*/
+  position: absolute;
+  top: 4rem;
+  left: 4rem;
+  /*.logo:hover {animation: moveInRight 3s ease-out;} WRONG!
+        When we were hovering over the logo and animating it, the logo wanted to move; but when it did,
+        our hover state was lost since the element was no longer under our active mouse.  Essentially, 
+        the logo was 'freaking' out because it didn't know whether to animate / move or stay statically 
+        positioned, thus, we were left with an ugly, Shrodinger flicker effect.
+        When we hover over the container (logo-box) instead, the logo is free to move as intended since 
+        our container remains static. */
+}
+
+.header__logo-box:hover .header__logo {
+  -webkit-animation: moveInRight 3s ease-out;
+          animation: moveInRight 3s ease-out;
+}
+
+.header__logo {
+  /*'&' means '.header'*/
+  height: 3.5rem;
+}
+
+.header__text-box {
+  /*'&' means '.header'*/
+  position: absolute;
+  top: 40%;
+  /*of the parent element */
+  left: 50%;
+  /*of the parent element */
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  /*because we want the middle of the box to be in the center 
+                                        not the beggining of the box, translate is not in relation 
+                                        to the parent element, but to the element itself, so it 
+                                        will be shifted  half of the width to left and top*/
+  text-align: center;
+}
+
+.row {
+  max-width: 114rem;
+  /*First off, we need to define a width for the row. And one of the standards 
+                        that is used these days is to make it 1140-pixels grid. But we want to use 
+                        rems, not pixels, and so all we have to do is to divide this number by 10 
+                        because 10 pixels equals one rem. What's the difference between width and 
+                        max-width? So max-width means is that if we have enough available space,
+                        then it will have the width that we specified but if there is not enough 
+                        width, so basically if the viewport is smaller than width that we specified 
+                        here, then it will simply fill 100% of the available space*/
+  margin: 0 auto;
+  /*That's the trick that everyone uses to center block elements inside of another
+                    block element. So we say that the margin on top and of the bottom is zero, and 
+                    left and right is auto. Why does that actually work? When we say that we want 
+                    the margin to be automatically, this means that the browser, when rendering the 
+                    page, will automatically figure out the margin that we want on the left and on 
+                    the right side, right? And since it's both set to auto, it means that left and 
+                    right will be the same, and CSS will automatically calculate the left margin 
+                    and the right margin, and they will be the same, and so of course, the element 
+                    will be centered, so that's the simple logic behind this.*/
+}
+
+.row:not(:last-child) {
+  margin-bottom: 8rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .row:not(:last-child) {
+    margin-bottom: 6rem;
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  .row {
+    max-width: 60rem;
+    padding: 0 3rem;
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  .row {
+    max-width: 50rem;
+  }
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row [class^="col-"] {
+  /*It will select all of the elements in which the class attribute starts with'col-', 
+                    and that's what this symbol '^' means. This is a nice way to select all of the 
+                    columns at the same time. '^' allows us to select only the ones that start with 
+                    col dash.*/
+  float: left;
+}
+
+.row [class^="col-"]:not(:last-child) {
+  margin-right: 6rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .row [class^="col-"]:not(:last-child) {
+    margin-right: 0;
+    margin-bottom: 6rem;
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  .row [class^="col-"] {
+    width: 100% !important;
+  }
+}
+
+.row .col-1-of-2 {
+  width: calc((100% - 6rem)/2);
+}
+
+.row .col-1-of-3 {
+  width: calc((100% - 2*6rem)/3);
+}
+
+.row .col-2-of-3 {
+  width: calc(2*((100% - 2*6rem)/3) + 6rem);
+}
+
+.row .col-1-of-4 {
+  width: calc((100% - 3*6rem)/4);
+}
+
+.row .col-2-of-4 {
+  width: calc(2*((100% - 3*6rem)/4) + 6rem);
+}
+
+.row .col-3-of-4 {
+  width: calc(3*((100% - 3*6rem)/4) + 2* 6rem);
+}
+
+.footer {
+  background-color: #333;
+  color: #777;
+  padding: 10rem 0;
+  font-size: 1.4rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .footer {
+    padding: 8rem 0;
+  }
+}
+
+.footer__logo-box {
+  text-align: center;
+  margin-bottom: 8rem;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .footer__logo-box {
+    margin-bottom: 6rem;
+  }
+}
+
+.footer__logo {
+  width: 15rem;
+  height: auto;
+}
+
+.footer__navigation {
+  border-top: 1px solid #777;
+  padding-top: 2rem;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .footer__navigation {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.footer__list {
+  list-style: none;
+}
+
+.footer__item {
+  display: inline-block;
+}
+
+.footer__item:not(:last-child) {
+  margin-right: 1.5rem;
+}
+
+.footer__link:link, .footer__link:visited {
+  color: #eee;
+  background-color: #333;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-block;
+  -webkit-transform: all .2s;
+          transform: all .2s;
+}
+
+.footer__link:hover, .footer__link:active {
+  color: #b5838d;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.footer__copyright {
+  border-top: 1px solid #777;
+  padding-top: 2rem;
+  width: 80%;
+  float: right;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .footer__copyright {
+    width: 100%;
+    float: none;
+  }
+}
+
+.section-about {
+  background-color: #f7f7f7;
+  padding: 35rem 0;
+  margin-top: -20vh;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .section-about {
+    padding-top: 38rem;
+  }
+}
+
+.section-features {
+  padding: 20rem 0;
+  background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(229, 152, 155, 0.8)), to(rgba(109, 104, 117, 0.8))), url(../img/nat-4-small.jpg);
+  background-image: linear-gradient(to right bottom, rgba(229, 152, 155, 0.8), rgba(109, 104, 117, 0.8)), url(../img/nat-4-small.jpg);
+  background-size: cover;
+  margin-top: -29rem;
+  -webkit-clip-path: polygon(0 20%, 100% 0, 100% 80%, 0 100%);
+  clip-path: polygon(0 20%, 100% 0, 100% 80%, 0 100%);
+  /*
+      //skew the entire section
+      transform: skewY(-7deg);
+
+      //make boxes not skewed
+      & > * {   //.section-features * - direct child selector - selects only direct children
+        transform: skewY(7deg);
+      }
+    */
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em), only screen and (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 75em) {
+  .section-features {
+    background-image: -webkit-gradient(linear, left top, right bottom, from(rgba(229, 152, 155, 0.8)), to(rgba(109, 104, 117, 0.8))), url(../img/nat-4.jpg);
+    background-image: linear-gradient(to right bottom, rgba(229, 152, 155, 0.8), rgba(109, 104, 117, 0.8)), url(../img/nat-4.jpg);
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  .section-features {
+    -webkit-clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+    clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+  }
+}
+
+.section-tours {
+  background-color: #f7f7f7;
+  padding: 35rem 0 15rem 0;
+  margin-top: -20vh;
+}
+
+@media only screen and (max-width: 56.25em) {
+  .section-tours {
+    padding-bottom: 10rem;
+  }
+}
+
+.section-stories {
+  padding: 15rem 0;
+  position: relative;
+}
+
+@media only screen and (max-width: 75em) {
+  .section-stories {
+    padding: 10rem 0;
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  .section-stories {
+    padding: 8rem 0;
+  }
+}
+
+.section-book {
+  padding: 20rem 0;
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#e5989b), to(#6d6875));
+  background-image: linear-gradient(to right bottom, #e5989b, #6d6875);
+}
+
+@media only screen and (max-width: 75em) {
+  .section-book {
+    padding: 15rem 0;
+    width: 100%;
+  }
+}
+
+.book {
+  /*Solid-color- - another background color that we have on top of the image, example, fro white to transparent. So, we 
+  want the gradient to be on top of the image and so we simply add another background-image, separated by commas, where the image 
+  is the second one. We can specify an angle. We can specify at different points of the gradient which color there should be.
+  So, we can say that in the beginning, let's say at 0%, we want white color. Then we can say that at 50% we want this transparent 
+  color. And, we can all go even further and say that at 50% we also want it to be white. So, we say at zero we want white, we 
+  say at 50 we want white and then at 50 we want transparent. And we've got a nice wedge without using clip-path.*/
+  background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 50%), url(../../img/nat-10-small.jpg);
+  background-size: cover;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.5);
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 56.25em), only screen and (min-resolution: 192dpi) and (min-width: 56.25em), (min-width: 125em) {
+  .book {
+    background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 50%, transparent 50%), url(../../img/nat-10.jpg);
+  }
+}
+
+@media only screen and (max-width: 75em) {
+  .book {
+    background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 65%, transparent 65%), url(../../img/nat-10-small.jpg);
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  .book {
+    background-image: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.9)), to(rgba(255, 255, 255, 0.9))), url(../../img/nat-10-small.jpg);
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%), url(../../img/nat-10-small.jpg);
+  }
+}
+
+.book__form {
+  width: 50%;
+  padding: 6rem;
+}
+
+@media only screen and (max-width: 75em) {
+  .book__form {
+    width: 65%;
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  .book__form {
+    width: 100%;
+  }
+}
+
+@font-face {
+  font-family: "linea-basic-10";
+  src: url("../../fonts/linea-basic-10.eot");
+  src: url("../../fonts/linea-basic-10.eot?#iefix") format("embedded-opentype"), url("../../fonts/linea-basic-10.woff") format("woff"), url("../../fonts/linea-basic-10.ttf") format("truetype"), url("../../fonts/linea-basic-10.svg#linea-basic-10") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before {
+  font-family: "linea-basic-10" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "linea-basic-10" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-basic-accelerator:before {
+  content: "a";
+}
+
+.icon-basic-alarm:before {
+  content: "b";
+}
+
+.icon-basic-anchor:before {
+  content: "c";
+}
+
+.icon-basic-anticlockwise:before {
+  content: "d";
+}
+
+.icon-basic-archive:before {
+  content: "e";
+}
+
+.icon-basic-archive-full:before {
+  content: "f";
+}
+
+.icon-basic-ban:before {
+  content: "g";
+}
+
+.icon-basic-battery-charge:before {
+  content: "h";
+}
+
+.icon-basic-battery-empty:before {
+  content: "i";
+}
+
+.icon-basic-battery-full:before {
+  content: "j";
+}
+
+.icon-basic-battery-half:before {
+  content: "k";
+}
+
+.icon-basic-bolt:before {
+  content: "l";
+}
+
+.icon-basic-book:before {
+  content: "m";
+}
+
+.icon-basic-book-pen:before {
+  content: "n";
+}
+
+.icon-basic-book-pencil:before {
+  content: "o";
+}
+
+.icon-basic-bookmark:before {
+  content: "p";
+}
+
+.icon-basic-calculator:before {
+  content: "q";
+}
+
+.icon-basic-calendar:before {
+  content: "r";
+}
+
+.icon-basic-cards-diamonds:before {
+  content: "s";
+}
+
+.icon-basic-cards-hearts:before {
+  content: "t";
+}
+
+.icon-basic-case:before {
+  content: "u";
+}
+
+.icon-basic-chronometer:before {
+  content: "v";
+}
+
+.icon-basic-clessidre:before {
+  content: "w";
+}
+
+.icon-basic-clock:before {
+  content: "x";
+}
+
+.icon-basic-clockwise:before {
+  content: "y";
+}
+
+.icon-basic-cloud:before {
+  content: "z";
+}
+
+.icon-basic-clubs:before {
+  content: "A";
+}
+
+.icon-basic-compass:before {
+  content: "B";
+}
+
+.icon-basic-cup:before {
+  content: "C";
+}
+
+.icon-basic-diamonds:before {
+  content: "D";
+}
+
+.icon-basic-display:before {
+  content: "E";
+}
+
+.icon-basic-download:before {
+  content: "F";
+}
+
+.icon-basic-exclamation:before {
+  content: "G";
+}
+
+.icon-basic-eye:before {
+  content: "H";
+}
+
+.icon-basic-eye-closed:before {
+  content: "I";
+}
+
+.icon-basic-female:before {
+  content: "J";
+}
+
+.icon-basic-flag1:before {
+  content: "K";
+}
+
+.icon-basic-flag2:before {
+  content: "L";
+}
+
+.icon-basic-floppydisk:before {
+  content: "M";
+}
+
+.icon-basic-folder:before {
+  content: "N";
+}
+
+.icon-basic-folder-multiple:before {
+  content: "O";
+}
+
+.icon-basic-gear:before {
+  content: "P";
+}
+
+.icon-basic-geolocalize-01:before {
+  content: "Q";
+}
+
+.icon-basic-geolocalize-05:before {
+  content: "R";
+}
+
+.icon-basic-globe:before {
+  content: "S";
+}
+
+.icon-basic-gunsight:before {
+  content: "T";
+}
+
+.icon-basic-hammer:before {
+  content: "U";
+}
+
+.icon-basic-headset:before {
+  content: "V";
+}
+
+.icon-basic-heart:before {
+  content: "W";
+}
+
+.icon-basic-heart-broken:before {
+  content: "X";
+}
+
+.icon-basic-helm:before {
+  content: "Y";
+}
+
+.icon-basic-home:before {
+  content: "Z";
+}
+
+.icon-basic-info:before {
+  content: "0";
+}
+
+.icon-basic-ipod:before {
+  content: "1";
+}
+
+.icon-basic-joypad:before {
+  content: "2";
+}
+
+.icon-basic-key:before {
+  content: "3";
+}
+
+.icon-basic-keyboard:before {
+  content: "4";
+}
+
+.icon-basic-laptop:before {
+  content: "5";
+}
+
+.icon-basic-life-buoy:before {
+  content: "6";
+}
+
+.icon-basic-lightbulb:before {
+  content: "7";
+}
+
+.icon-basic-link:before {
+  content: "8";
+}
+
+.icon-basic-lock:before {
+  content: "9";
+}
+
+.icon-basic-lock-open:before {
+  content: "!";
+}
+
+.icon-basic-magic-mouse:before {
+  content: "\"";
+}
+
+.icon-basic-magnifier:before {
+  content: "#";
+}
+
+.icon-basic-magnifier-minus:before {
+  content: "$";
+}
+
+.icon-basic-magnifier-plus:before {
+  content: "%";
+}
+
+.icon-basic-mail:before {
+  content: "&";
+}
+
+.icon-basic-mail-multiple:before {
+  content: "'";
+}
+
+.icon-basic-mail-open:before {
+  content: "(";
+}
+
+.icon-basic-mail-open-text:before {
+  content: ")";
+}
+
+.icon-basic-male:before {
+  content: "*";
+}
+
+.icon-basic-map:before {
+  content: "+";
+}
+
+.icon-basic-message:before {
+  content: ",";
+}
+
+.icon-basic-message-multiple:before {
+  content: "-";
+}
+
+.icon-basic-message-txt:before {
+  content: ".";
+}
+
+.icon-basic-mixer2:before {
+  content: "/";
+}
+
+.icon-basic-mouse:before {
+  content: ":";
+}
+
+.icon-basic-notebook:before {
+  content: ";";
+}
+
+.icon-basic-notebook-pen:before {
+  content: "<";
+}
+
+.icon-basic-notebook-pencil:before {
+  content: "=";
+}
+
+.icon-basic-paperplane:before {
+  content: ">";
+}
+
+.icon-basic-pencil-ruler:before {
+  content: "?";
+}
+
+.icon-basic-pencil-ruler-pen:before {
+  content: "@";
+}
+
+.icon-basic-photo:before {
+  content: "[";
+}
+
+.icon-basic-picture:before {
+  content: "]";
+}
+
+.icon-basic-picture-multiple:before {
+  content: "^";
+}
+
+.icon-basic-pin1:before {
+  content: "_";
+}
+
+.icon-basic-pin2:before {
+  content: "`";
+}
+
+.icon-basic-postcard:before {
+  content: "{";
+}
+
+.icon-basic-postcard-multiple:before {
+  content: "|";
+}
+
+.icon-basic-printer:before {
+  content: "}";
+}
+
+.icon-basic-question:before {
+  content: "~";
+}
+
+.icon-basic-rss:before {
+  content: "\\";
+}
+
+.icon-basic-server:before {
+  content: "\e000";
+}
+
+.icon-basic-server2:before {
+  content: "\e001";
+}
+
+.icon-basic-server-cloud:before {
+  content: "\e002";
+}
+
+.icon-basic-server-download:before {
+  content: "\e003";
+}
+
+.icon-basic-server-upload:before {
+  content: "\e004";
+}
+
+.icon-basic-settings:before {
+  content: "\e005";
+}
+
+.icon-basic-share:before {
+  content: "\e006";
+}
+
+.icon-basic-sheet:before {
+  content: "\e007";
+}
+
+.icon-basic-sheet-multiple:before {
+  content: "\e008";
+}
+
+.icon-basic-sheet-pen:before {
+  content: "\e009";
+}
+
+.icon-basic-sheet-pencil:before {
+  content: "\e00a";
+}
+
+.icon-basic-sheet-txt:before {
+  content: "\e00b";
+}
+
+.icon-basic-signs:before {
+  content: "\e00c";
+}
+
+.icon-basic-smartphone:before {
+  content: "\e00d";
+}
+
+.icon-basic-spades:before {
+  content: "\e00e";
+}
+
+.icon-basic-spread:before {
+  content: "\e00f";
+}
+
+.icon-basic-spread-bookmark:before {
+  content: "\e010";
+}
+
+.icon-basic-spread-text:before {
+  content: "\e011";
+}
+
+.icon-basic-spread-text-bookmark:before {
+  content: "\e012";
+}
+
+.icon-basic-star:before {
+  content: "\e013";
+}
+
+.icon-basic-tablet:before {
+  content: "\e014";
+}
+
+.icon-basic-target:before {
+  content: "\e015";
+}
+
+.icon-basic-todo:before {
+  content: "\e016";
+}
+
+.icon-basic-todo-pen:before {
+  content: "\e017";
+}
+
+.icon-basic-todo-pencil:before {
+  content: "\e018";
+}
+
+.icon-basic-todo-txt:before {
+  content: "\e019";
+}
+
+.icon-basic-todolist-pen:before {
+  content: "\e01a";
+}
+
+.icon-basic-todolist-pencil:before {
+  content: "\e01b";
+}
+
+.icon-basic-trashcan:before {
+  content: "\e01c";
+}
+
+.icon-basic-trashcan-full:before {
+  content: "\e01d";
+}
+
+.icon-basic-trashcan-refresh:before {
+  content: "\e01e";
+}
+
+.icon-basic-trashcan-remove:before {
+  content: "\e01f";
+}
+
+.icon-basic-upload:before {
+  content: "\e020";
+}
+
+.icon-basic-usb:before {
+  content: "\e021";
+}
+
+.icon-basic-video:before {
+  content: "\e022";
+}
+
+.icon-basic-watch:before {
+  content: "\e023";
+}
+
+.icon-basic-webpage:before {
+  content: "\e024";
+}
+
+.icon-basic-webpage-img-txt:before {
+  content: "\e025";
+}
+
+.icon-basic-webpage-multiple:before {
+  content: "\e026";
+}
+
+.icon-basic-webpage-txt:before {
+  content: "\e027";
+}
+
+.icon-basic-world:before {
+  content: "\e028";
+}
+/*# sourceMappingURL=main.css.map */

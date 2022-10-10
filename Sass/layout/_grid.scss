@@ -1,0 +1,83 @@
+.row {
+    max-width: $grid-width; /*First off, we need to define a width for the row. And one of the standards 
+                        that is used these days is to make it 1140-pixels grid. But we want to use 
+                        rems, not pixels, and so all we have to do is to divide this number by 10 
+                        because 10 pixels equals one rem. What's the difference between width and 
+                        max-width? So max-width means is that if we have enough available space,
+                        then it will have the width that we specified but if there is not enough 
+                        width, so basically if the viewport is smaller than width that we specified 
+                        here, then it will simply fill 100% of the available space*/
+    // background-color: #eee;
+    margin: 0 auto; /*That's the trick that everyone uses to center block elements inside of another
+                    block element. So we say that the margin on top and of the bottom is zero, and 
+                    left and right is auto. Why does that actually work? When we say that we want 
+                    the margin to be automatically, this means that the browser, when rendering the 
+                    page, will automatically figure out the margin that we want on the left and on 
+                    the right side, right? And since it's both set to auto, it means that left and 
+                    right will be the same, and CSS will automatically calculate the left margin 
+                    and the right margin, and they will be the same, and so of course, the element 
+                    will be centered, so that's the simple logic behind this.*/
+    
+    &:not(:last-child){ //we sellect everything exept the last child
+        margin-bottom: $gutter-vertical;
+
+        @include respond(tab-port) {
+            margin-bottom: $gutter-vertical-small;
+        }
+    }
+
+    @include respond(tab-port) {
+        max-width: 60rem;
+        padding: 0 3rem;
+    }
+
+    @include respond(phone) {
+        max-width: 50rem;
+    }
+
+@include clearfix;
+
+    [class^="col-"] { /*It will select all of the elements in which the class attribute starts with'col-', 
+                    and that's what this symbol '^' means. This is a nice way to select all of the 
+                    columns at the same time. '^' allows us to select only the ones that start with 
+                    col dash.*/
+        // background-color: orangered;
+        float: left;
+            
+        &:not(:last-child) {
+            margin-right: $gutter-horizontal;
+
+            @include respond(tab-port) {
+                margin-right: 0;
+                margin-bottom: $gutter-vertical-small;
+            }
+        }
+
+        @include respond(tab-port) {
+            width: 100% !important; //means one column per row
+        }
+    }
+    .col-1-of-2 {
+        width: calc((100% - #{$gutter-horizontal})/2);
+    }
+
+    .col-1-of-3 {
+        width: calc((100% - 2*#{$gutter-horizontal})/3);
+    }
+
+    .col-2-of-3 {
+        width: calc(2*((100% - 2*#{$gutter-horizontal})/3) + #{$gutter-horizontal});
+    }
+
+    .col-1-of-4 {
+        width: calc((100% - 3*#{$gutter-horizontal})/4);
+    }
+
+    .col-2-of-4 {
+        width: calc(2*((100% - 3*#{$gutter-horizontal})/4) + #{$gutter-horizontal});
+    }
+
+    .col-3-of-4 {
+        width: calc(3*((100% - 3*#{$gutter-horizontal})/4) + 2* #{$gutter-horizontal});
+    }
+}

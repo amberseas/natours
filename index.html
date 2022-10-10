@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="css/icon-font.css"> -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon-pink.png">
+
+    <title>Natours | Exciting tours for adventurous people</title>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <div class="navigation">
+        <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
+        <label for="navi-toggle" class="navigation__button">
+            <span class="navigation__icon">&nbsp;</span>
+        </label>
+
+        <div class="navigation__background">&nbsp;</div>
+
+        <!-- And so this one will be the huge container, spanning the entire page, which I mentioned, so that we can then in there
+vertically and horizontally center the unordered list -->
+        <nav class="navigation__nav">
+            <ul class="navigation__list">
+                <li class="navigation__item"><a href="#" class="navigation__link"><span>01</span>About Natours</a></li>
+                <li class="navigation__item"><a href="#" class="navigation__link"><span>02</span>Your benefits</a></li>
+                <li class="navigation__item"><a href="#" class="navigation__link"><span>03</span>Popular tours</a></li>
+                <li class="navigation__item"><a href="#" class="navigation__link"><span>04</span>Stories</a></li>
+                <li class="navigation__item"><a href="#" class="navigation__link"><span>05</span>BOOK now</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <!-- standalone blockin BEM -->
+        <div class="header__logo-box">
+            <img src="img/logo-white.png" alt="logo" class="header__logo">
+        </div>
+
+
+        <div class="header__text-box">
+            <h1 class="heading-primary">
+                <!-- standalone blockin BEM -->
+                <span class="heading-primary heading-primary--main">Outdoors</span>
+                <span class="heading-primary heading-primary--sub">is where life happens</span>
+            </h1>
+
+            <!-- BUTTON -->
+            <a href="#" class="btn btn--white btn--animated">Discover our tours</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- SECTION ABOUT -->
+        <section class="section-about">
+            <div class="u-center-text u-margin-bottom-big">
+                <h2 class="heading-secondary">
+                    Exciting tours for adventurous people
+                </h2>
+            </div>
+
+            <!-- DEVIDES CONTAINER INTO TWO FOR TEXT AND IMAGES -->
+            <div class="row">
+                <div class="col-1-of-2">
+                    <h3 class="heading-tertiary u-margin-bottom-small">
+                        you're going to fall in love with nature
+                    </h3>
+                    <p class="paragraph">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis repellendus doloribus nulla
+                        corrupti nam accusantium aliquid laudantium qui aspernatur, nihil sapiente fuga numquam tenetur
+                        blanditiis pariatur aut ea excepturi voluptas.
+                    </p>
+
+                    <h3 class="heading-tertiary u-margin-bottom-small">
+                        live adventurous like you never have before
+                    </h3>
+                    <p class="paragraph">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores doloremque repellat molestiae
+                        cupiditate voluptate.
+                    </p>
+
+                    <a href="#" class="btn-text">Learn more &rarr;</a>
+                </div>
+
+                <div class="col-1-of-2">
+                    <div class="composition">
+
+                        <!-- This entire thing will take care of both resolution switching and density switching-->
+
+                        <!-- Right now we're gonna use width descriptor. And so, what we do here is to basically inform
+                            the browser of the width of these images. And so, we write 300w, which probably stands for width.
+                            And then this one here has 1,000. And so, by using these width descriptors, we basically inform 
+                            the browser of the width of each of these images without the browser having to download them to 
+                            get access to that information. Okay, but that alone is not enough for the browser to figure out 
+                            which image to download, because what the browser knows is its viewport width and its display 
+                            density. But that alone is not enough to decide which of these two images to choose. So we have 
+                            to give it something else. And we do that with the sizes attribute. Well, basically we use sizes 
+                            to inform the browser about the approximate width of the image at different viewport widths. And 
+                            so, with that information, together with the width descriptor here, the browser can then figure out 
+                            which is the perfect image to use for the current viewport width and the current display resolution.-->
+                        <img srcset="img/nat-1.jpg 300w, img/nat-1-large.jpg 1000w" alt="Photo 1"
+                            sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
+                            class="composition__photo composition__photo--p1" src="img/nat-1-large.jpg">
+                        <!-- when viewport widht <=900px , photo occupies 20% of vw, when <=600px, than occupies 30% of 
+                                    vw, and none of that applies then picture by default is 300px. From 'sizes' and srcset 
+                                    browser will figure out which picture to use -->
+
+                        <img srcset="img/nat-2.jpg 300w, img/nat-2-large.jpg 1000w" alt="Photo 2"
+                            sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
+                            class="composition__photo composition__photo--p2" src="img/nat-2-large.jpg">
+
+                        <img srcset="img/nat-3.jpg 300w, img/nat-3-large.jpg 1000w" alt="Photo 3"
+                            sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
+                            class="composition__photo composition__photo--p3" src="img/nat-3-large.jpg">
+
+
+                        <!-- <img src="img/nat-1-large.jpg" alt="photo 1" class="composition__photo composition__photo--p1">
+                        <img src="img/nat-2-large.jpg" alt="photo 2" class="composition__photo composition__photo--p2">
+                        <img src="img/nat-3-large.jpg" alt="photo 3" class="composition__photo composition__photo--p3"> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION FEATURES -->
+        <section class="section-features">
+
+            <!-- COLUMN 1 -->
+            <div class="row">
+                <div class="col-1-of-4">
+                    <div class="feature-box">
+                        <!-- ICON -->
+                        <i class="feature-box__icon icon-basic-world"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Explore the world</h3>
+                        <p class="feature-box__text">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt doloremque odit ducimus culpa.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- COLUMN 2 -->
+
+                <div class="col-1-of-4">
+                    <div class="feature-box">
+                        <!-- ICON -->
+                        <i class="feature-box__icon icon-basic-compass"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Meet nature</h3>
+                        <p class="feature-box__text">
+                            Similique fugit fuga porro ex vitae error beatae tempora corrupti dicta, atque accusamus.
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- COLUMN 3 -->
+                <div class="col-1-of-4">
+                    <div class="feature-box">
+                        <!-- ICON -->
+                        <i class="feature-box__icon icon-basic-map"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">find your way</h3>
+                        <p class="feature-box__text">
+                            Dignissimos sapiente placeat provident facere consectetur temporibus quam consequatur ut
+                            expedita.
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- COLUMN 4 -->
+
+                <div class="col-1-of-4">
+                    <div class="feature-box">
+                        <!-- ICON -->
+                        <i class="feature-box__icon icon-basic-heart"></i>
+                        <h3 class="heading-tertiary u-margin-bottom-small">Live a healthier life</h3>
+                        <p class="feature-box__text">
+                            Sint et voluptatem sit adipisci porro? Eveniet molestias corrupti impedit labore ducimus
+                            magnam.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--TOUR CARDS -->
+        <section class="section-tours" id="tours">
+
+            <!-- HEADING -->
+            <div class="u-center-text u-margin-bottom-big">
+                <h2 class="heading-secondary">
+                    Most popular tours
+                </h2>
+            </div>
+
+            <!-- CARDS -->
+            <div class="row">
+
+                <!-- 1ST CARD -->
+                <div class="col-1-of-3">
+                    <div class="card">
+                        <div class="card__side card__side--front card__side--front-1">
+                            <div class="card__picture card__picture--1">
+                                &nbsp;
+                                <!--represent empty space-->
+                            </div>
+                            <h4 class="card__heading card__heading--1">
+                                <span class="card__heading-span card__heading-span--1">
+                                    The sea explorer</span>
+                            </h4>
+                            <div class="card__details card__details--1">
+                                <ul>
+                                    <li>3 day tour</li>
+                                    <li>Up to 30 people</li>
+                                    <li>2 tour guides</li>
+                                    <li>Sleep in cozy hotels</li>
+                                    <li>Difficulty: easy</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card__side card__side--back card__side--back-1">
+                            <div class="card__cta">
+                                <div class="card__price-box">
+                                    <p class="card__price-only">Only</p>
+                                    <p class="card__price-value">$297</p>
+                                </div>
+                                <a href="#popup" class="btn btn--white">Book now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2ND CARD -->
+                <div class="col-1-of-3">
+                    <div class="card">
+                        <div class="card__side card__side--front card__side--front-2">
+                            <div class="card__picture card__picture--2">
+                                &nbsp;
+                                <!--represent empty space-->
+                            </div>
+                            <h4 class="card__heading card__heading--2">
+                                <span class="card__heading-span card__heading-span--2">
+                                    The forest hiker</span>
+                            </h4>
+                            <div class="card__details card__details--2">
+                                <ul>
+                                    <li>7 day tour</li>
+                                    <li>Up to 40 people</li>
+                                    <li>6 tour guides</li>
+                                    <li>Sleep in provided tents</li>
+                                    <li>Difficulty: medium</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card__side card__side--back card__side--back-2">
+                            <div class="card__cta">
+                                <div class="card__price-box">
+                                    <p class="card__price-only">Only</p>
+                                    <p class="card__price-value">$497</p>
+                                </div>
+                                <a href="#popup" class="btn btn--white">Book now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3RD CARD -->
+                <div class="col-1-of-3">
+                    <div class="card">
+                        <div class="card__side card__side--front card__side--front-3">
+                            <div class="card__picture card__picture--3">
+                                &nbsp;
+                                <!--represent empty space-->
+                            </div>
+                            <h4 class="card__heading card__heading--3">
+                                <span class="card__heading-span card__heading-span--3">
+                                    The snow adventurer</span>
+                            </h4>
+                            <div class="card__details card__details--3">
+                                <ul>
+                                    <li>5 day tour</li>
+                                    <li>Up to 15 people</li>
+                                    <li>3 tour guides</li>
+                                    <li>Sleep in provided tents</li>
+                                    <li>Difficulty: hard</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card__side card__side--back card__side--back-3">
+                            <div class="card__cta">
+                                <div class="card__price-box">
+                                    <p class="card__price-only">Only</p>
+                                    <p class="card__price-value">$897</p>
+                                </div>
+                                <a href="#popup" class="btn btn--white">Book now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="u-center-text u-margin-top-huge">
+                <a href="#" class="btn btn--pink">Discover all tours</a>
+            </div>
+
+        </section>
+
+        <!-- SECTION STORIES -->
+        <section class="section-stories">
+
+
+            <!-- Free videos at coverr.co -->
+            <div class="bg-video">
+                <video class="bg-video__content" autoplay muted loop>
+                    <!-- we need two video formats to make sure they will work on all browsers -->
+                    <source src="img/video.mp4" type="video/mp4">
+                    <source src="img/video.webm" type="video/webm">
+                    <!-- we need to put text in case the browser wont recognize both of the video files -->
+                    Your browser is not supported!
+                </video>
+            </div>
+
+            <div class="u-center-text u-margin-bottom-big">
+                <h2 class="heading-secondary">
+                    We make people genuinely happy
+                </h2>
+            </div>
+
+            <!-- Now this time, we're not going to put any columns in the row. We're just using 
+                this nicely centered container that the row gives us, so that we can put our story 
+                component in there, -->
+            <div class="row">
+                <div class="story">
+                    <!-- We start with the shape, that will make this one a figure called story 
+                        shape and I'm making this a figure because it's semantically the best 
+                        thing to do because we will have an image together with a caption, and so 
+                        in HTML5 we have this figure element where we can put an image and then 
+                        some caption, with a figcaption element. -->
+                    <figure class="story__shape">
+
+                        <!-- Making image responsive -->
+                        <img srcset="img/nat-8-small.jpg 450w, img/nat-8.jpg 2000w" alt="person on a tour"
+                            sizes="(max-width: 56.25em) 25vw, (max-width: 37.5em) 38vw, 450px" class="story__image"
+                            src="img/nat-8.jpg">
+
+                        <!-- <img src="img/nat-8.jpg" alt="person on a tour" class="story__image"> -->
+                        <figcaption class="story__caption">Mary Smith</figcaption>
+                    </figure>
+
+                    <div class="story__text">
+                        <h3 class="heading-tertiary u-margin-bottom-small"> I had the best week ever with my family</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. At aperiam fuga ipsam itaque
+                            recusandae. Odio explicabo sunt eum quam tenetur non accusantium velit sed hic nam.
+                            Voluptatibus odio ut esse. At aperiam fuga ipsam itaque
+                            recusandae.</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="story">
+                        <!-- We start with the shape, that will make this one a figure called story 
+                            shape and I'm making this a figure because it's semantically the best 
+                            thing to do because we will have an image together with a caption, and so 
+                            in HTML5 we have this figure element where we can put an image and then 
+                            some caption, with a figcaption element. -->
+                        <figure class="story__shape">
+
+                            <!-- Making image responsive -->
+                            <img srcset="img/nat-9-small.jpg 450w, img/nat-9.jpg 2000w" alt="person on a tour"
+                                sizes="(max-width: 56.25em) 25vw, (max-width: 37.5em) 38vw, 450px" class="story__image"
+                                src="img/nat-9.jpg">
+
+                            <!-- <img src="img/nat-9.jpg" alt="person on a tour" class="story__image"> -->
+                            <figcaption class="story__caption">Jack Wilson</figcaption>
+                        </figure>
+
+                        <div class="story__text">
+                            <h3 class="heading-tertiary u-margin-bottom-small"> WOW! My life is completely different now
+                            </h3>
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. At aperiam fuga ipsam itaque
+                                recusandae. Odio explicabo sunt eum quam tenetur non accusantium velit sed hic nam.
+                                Voluptatibus odio ut esse. At aperiam fuga ipsam itaque
+                                recusandae.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="u-center-text u-margin-top-huge">
+                    <a href="#" class="btn-text">Read all stories &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOOKING -->
+        <section class="section-book">
+            <div class="row">
+                <div class="book">
+                    <div class="book__form">
+                        <form action="#" class="form">
+                            <h2 class="heading-secondary u-margin-bottom-medium">
+                                Start booking now
+                            </h2>
+
+                            <div class="form__group">
+                                <input type="text" class="form__input" placeholder="Full Name" id="name" required>
+                                <label for="name" class="form__label">Full Name</label>
+                            </div>
+
+                            <div class="form__group">
+                                <input type="email" class="form__input" placeholder="example@example.com" id="email"
+                                    required>
+                                <label for="email" class="form__label">Email Address</label>
+                            </div>
+
+                            <div class="form__group u-margin-bottom-medium">
+                                <div class="form__radio-group">
+                                    <input type="radio" class="form__radio-input" id="small" name="size">
+                                    <label for="small" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Small tour group</label>
+                                </div>
+
+                                <div class="form__radio-group">
+                                    <!-- is two or more inputs have the same name, only one can be selected -->
+                                    <input type="radio" class="form__radio-input" id="large" name="size">
+                                    <!-- We have no way of styling radio buttons in CSS. And so what we have 
+                                        to do is to basically build our own buttons inside of a label and we 
+                                        will hide the input. -->
+                                    <label for="large" class="form__radio-label">
+                                        <span class="form__radio-button"></span>
+                                        Large tour group</label>
+                                </div>
+                            </div>
+
+                            <div class="form__group">
+                                <button class="btn btn--pink">
+                                    Next step &rarr;
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer__logo-box">
+
+            <!-- We use the picture element in which we can basically specify multiple sources for one image and then in the 
+                source element, we can actually write a media query just like we do in CSS. And so with this we force the 
+                browser to use 'logo-pink-small' image source set , in case that max width is less than 600 pixels, and in case 
+                it's not, so if it's larger than 600 pixels, then the browser is forced to use 'logo-pink' image source set. 
+                So that is called art direction, Different images for different viewport width. We can use our density 
+                descriptors again so we say that if it's a low resolution screen, we want to use small image here with 1x 
+                and if it's a high resolution screen, then we want a high resolution image, so the larger image in that case.-->
+            <picture class="footer__logo">
+                <source srcset="img/logo-pink-small-1x.png 1x, img/logo-pink-small-2x.png 2x,"
+                    media="(max-width: 37.5em)">
+                <img srcset="img/logo-pink-1x.png 1x, img/logo-pink-2x.png 2x" alt="Full logo"
+                    src="img/logo-pink-2x.png">
+                <!--in case the older browsers does not support srcset-->
+                <!-- We need to have two images, one for each of the resolutions. So logo pink 1x and 2x. 2x and that has 300 pixels in width. The natural size of the 2x image is 300 pixels, but its displaying with only 150 pixels here on the screen. And that makes sense because that's actually the width 
+                that we specified in the code 15 rem. So it makes sense that the 2x image has exactly double the width of the width that it is displayed on the screen. Because high resolution screens use two physical pixels to display one display in our design.  1x is the one that we want to display 
+                on low resolution screens. It has a width of only 150 pixels. We can keep using the image element, we just have to change the src attribute to srcset. And so now we can specify two images. And the first one I'm going to specify is image logo pink 1x and now we can put here something 
+                called a density descriptor. And a density descriptor is very simple. I'll just write 1x for this one here and then 2x for larger one. So now this source set attribute here allows the browser to choose the best of these two images here, according to the screen that is used by the user 
+                to display the webpage. So if it's a low density screen, it will use 1x image, because we said that this image should be used for a low resolution screen and when a device has a high resolution screen, then it will use 2x image because we said so, because we said that this image should 
+                be used for high resolution. So with this image, with this source set attribute, we give the browser the choice to choose the best image for each situation. -->
+            </picture>
+
+        </div>
+        <div class="row">
+            <div class="col-1-of-2">
+                <div class="footer__navigation">
+                    <ul class="footer__list">
+                        <li class="footer__item"><a href="#" class="footer__link">Company</a></li>
+                        <li class="footer__item"><a href="#" class="footer__link">Contact us</a></li>
+                        <li class="footer__item"><a href="#" class="footer__link">Carrier</a></li>
+                        <li class="footer__item"><a href="#" class="footer__link">Privacy Policy</a></li>
+                        <li class="footer__item"><a href="#" class="footer__link">Terms</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-1-of-2">
+                <p class="footer__copyright">
+                    Built by Gintarė Šimkūnienė for <a href="#" class="footer__link">Jonas Schmedtmann</a> online course
+                    <a href="#" class="footer__link">Advanced CSS & Sass</a>. Copyright &copy; by Jonas Schmedtmann. You
+                    are 100%
+                    allowed to use this webpage for both personal and commercial use, but NOT to claim it as your own
+                    design. Credit to the original author, Jonas Schmedtmann, is of course highly appreciated!
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- POPUP -->
+    <div class="popup" id="popup">
+        <!--for dark background-->
+        <div class="popup__content">
+            <div class="popup__left">
+
+                <img srcset="img/nat-8-small.jpg 450w, img/nat-8-medium.jpg 1000w img/nat-8.jpg 1000w" alt="tour photo"
+                    sizes="(max-width: 1200px) 25vw, 1000px" class="popup__img popup__img--1" src="img/nat-8.jpg">
+
+                <img srcset="img/nat-9-small.jpg 450w, img/nat-9-medium.jpg 1000w, img/nat-9.jpg 2000w" alt="tour photo"
+                    sizes="(max-width: 1200px) 25vw, (max-width: 900px) 73vw, 1000px" class="popup__img popup__img--2"
+                    src="img/nat-9.jpg">
+
+                <!-- <img class="popup__img popup__img--1" src="img/nat-8.jpg" alt="tour photo">
+                <img class="popup__img popup__img--2" src="img/nat-9.jpg" alt="tour photo"> -->
+            </div>
+            <div class="popup__right">
+                <h2 class="heading-secondary u-margin-bottom-small">Start booking now</h2>
+                <h3 class="heading-tertiary u-margin-bottom-small">Important &ndash; Please read these terms before
+                    booking</h3>
+                <p class="popup__text">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore sit, placeat at eius dicta
+                    voluptatibus nemo quod corrupti reiciendis neque aspernatur ullam, adipisci non iure dolorum
+                    laudantium. Quam, accusamus eligendi! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Animi ipsa explicabo laboriosam saepe? Obcaecati magni natus explicabo dolore, odit nemo, ea magnam
+                    quisquam praesentium, reprehenderit quod in numquam voluptatibus distinctio.
+                </p>
+                <a href="" class="btn btn--pink">Book Now</a>
+            </div>
+
+            <a href="#tours" class="popup__close">&times;</a>
+        </div>
+    </div>
+
+    <!--
+    <section class="grid-test">
+        <div class="row">
+            <div class="col-1-of-2">Col 1 of 2</div>
+            <div class="col-1-of-2">Col 1 of 2</div>
+        </div>
+        <div class="row">
+            <div class="col-1-of-3">Col 1 of 3</div>
+            <div class="col-1-of-3">Col 1 of 3</div>
+            <div class="col-1-of-3">Col 1 of 3</div>
+        </div>
+        <div class="row">
+            <div class="col-1-of-3">Col 1 of 3</div>
+            <div class="col-2-of-3">Col 2 of 3</div>
+        </div>
+        <div class="row">
+            <div class="col-1-of-4">Col 1 of 4</div>
+            <div class="col-1-of-4">Col 1 of 4</div>
+            <div class="col-1-of-4">Col 1 of 4</div>
+            <div class="col-1-of-4">Col 1 of 4</div>
+        </div>
+        <div class="row">
+            <div class="col-1-of-4">Col 1 of 4</div>
+            <div class="col-1-of-4">Col 1 of 4</div>
+            <div class="col-2-of-4">Col 2 of 4</div>
+        </div>
+        <div class="row">
+            <div class="col-1-of-4">Col 1 of 4</div>
+            <div class="col-3-of-4">Col 3 of 4</div>
+        </div>
+    </section>
+-->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+.form {
+    &__group:not(:last-child) {
+        margin-bottom: 2rem;
+    }
+
+    &__input {
+        font-size: 1.5rem;
+        font-family: inherit; //input element doesnt inherit automaticly
+        color: inherit;
+        padding: 1.5rem 2rem;
+        border-radius: 2px;
+        background-color: rgba($color-white, .5);
+        border: none;
+        border-bottom: 3px solid transparent; //in order to keep constant height
+        width: 90%;
+        display: block;
+        transition: all .3s;
+
+        @include respond(tab-port){
+            width: 100%;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba($color-black, .1);
+            border-bottom: 3px solid $color-green-dark;
+
+            //styles for valid and invalid states
+            &:invalid {
+                border-bottom: 3px solid $color-yellow-dark;
+            }
+        }
+
+        
+        &::-webkit-input-placeholder { //allows to edit the placeholder
+            color: $color-grey-dark-2;
+        }
+    }
+   
+
+    &__label {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: .7rem;
+        display: block; //in order to box model (margins) properties to work
+        transition: all .3s;
+
+    }
+
+    &__input:placeholder-shown + &__label {
+    /*So when the placeholder is shown on the input element, then we can style the label.
+    &__input:placeholder-shown &__label' is not going to work, because the label is not a 
+    child element of the input, they are both childs of the form__group, but in CSS we have 
+    a very powerful selector and it is called the sibling selector. And this one is actually 
+    the adjacent sibling - a sibling that comes immediately after the element that we select 
+    in the first place. So we first select input, and then with the adjacent sibling selector '+'
+    we select the first sibling, which is the label. And so in this case, this works. But if 
+    there was some other element in-between here, let's say here was another div, and then there 
+    was like some button or something, then we could still use a sibling selector, but we would 
+    have to use the general sibling selector '~', so this one works if there are more levels 
+    in-between. Now one particular thing about the sibling selector is that the sibling that we 
+    have to select, in this case the label, always has to be AFTER the first element, so the input 
+    in this case.*/
+        opacity: 0;
+        visibility: hidden; /*That's because if we just set the opacity to zero, then the element 
+                            will basically still be on the page, but only invisible, but if we set 
+                            it to visibility hidden as well, well, then it's really gone. So why 
+                            don't we just use the visibility hidden without the opacity? Well, 
+                            because we cannot animate the visibility*/
+        transform: translateY(-4rem);
+    }
+
+    &__radio-group {
+        width: 49%;
+        display: inline-block; //no line brakes, will be displayed side by side
+
+        @include respond(tab-port){
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+    }
+
+    &__radio-input {
+        display: none;
+    }
+
+    &__radio-label {
+        font-size: $default-font-size;
+        cursor: pointer;
+        position: relative;
+        padding-left: 4rem;
+    }
+
+    &__radio-button {
+        height: 3rem;
+        width: 3rem;
+        border: 5px solid $color-primary;
+        border-radius: 50%;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: -.4rem;
+        
+        &::after { //a circle inside
+            content: "";
+            display: block;
+            height: 1.3rem;
+            width: 1.3rem;
+            border-radius: 50%;
+            background-color: $color-primary;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity .1s;
+        }
+    }
+
+    &__radio-input:checked ~ &__radio-label &__radio-button::after { /*when we hit the label element, the radio-input becomes checked,
+        we select the sibling of that one and then the child that we want to style*/
+        opacity: 1;
+
+    }
+}

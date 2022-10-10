@@ -1,0 +1,39 @@
+/*Utility classes are very simple classes in CSS, which only have one simple 
+goal, and in this case, it will simply be to center text.*/
+
+.u-center-text {text-align: center !important;} /*So when we add a utility class, we really want to happen whatever we say in one 
+                                                of these classes, right? And so we actually want this to override everything else. 
+                                                And so what we do is to use the important keyword. So this is a normal practice, 
+                                                to do it like this in the utility classes*/
+
+/*H2 will become centered, and that's because this is a inline block element now, 
+and so, if we set the parent to text-align-center, then that inline block element 
+inside is treated as text and will therefore be centered in the parent.*/
+
+.u-margin-bottom-small {
+    margin-bottom: 1.5rem !important;
+}
+
+.u-margin-bottom-medium {
+    margin-bottom: 4rem !important;
+
+    @include respond(tab-port) {
+        margin-bottom: 3rem !important;
+    }
+}
+
+.u-margin-bottom-big {
+    margin-bottom: 8rem !important;
+
+    @include respond(tab-port) {
+        margin-bottom: 5rem !important;
+    }
+
+}
+
+.u-margin-top-big {
+    margin-top: 8rem !important;
+}
+.u-margin-top-huge {
+    margin-top: 10rem !important;
+}

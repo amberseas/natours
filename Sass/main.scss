@@ -1,0 +1,30 @@
+@import "abstracts/functions"; 
+@import "abstracts/mixins"; 
+@import "abstracts/variables"; 
+
+@import "base/animations";
+@import "base/base"; /*we are here in the folder system (sass folder), so from here we just have 
+                      to move into the base folder, and then from there we select the base file.
+                      Now we don't have to use the underscore. All we have to do is...base. So 
+                      no underscore and no .scss. This is enough for SASS to understand what we 
+                      want to import here. */
+@import "base/typography"; 
+@import "base/utilities"; 
+
+@import "components/button";
+@import "components/composition";
+@import "components/feature-box";
+@import "components/card";
+@import "components/story";
+@import "components/bg-video";
+@import "components/form";
+@import "components/popup";
+
+@import "layout/navigation";
+@import "layout/header";
+@import "layout/grid";
+@import "layout/footer";
+
+@import "pages/home"; 
+
+@import "vendors/icon-font";

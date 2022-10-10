@@ -1,0 +1,91 @@
+/*underscore (_) means partial file*/
+
+/*Basic definitions of our entire project*/
+
+*, *::after, *::before { /*also select all of the after pseudo-elements and also all of the 
+                        before pseudo-elements. That's because, right now, only the real 
+                        elements get this behavior here, but the after and before pseudo-
+                        elements, they don't get this behavior, and since we don't want to 
+                        see any strange behavior happening, we will also include these ones 
+                        here as well.*/
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit; /*So the box-sizing property by itself is not inherited, but by setting 
+                        the box-sizing property on each and every element on the entire page 
+                        to inherit, it'll automatically inherit whatever we put here on 
+                        border-box. So this is considered a slightly better practice by the 
+                        CSS community because it makes it a bit easier to change the box-sizing
+                        like in plugins or other components where we might want to use a 
+                        different property for box-sizing. So it doesn't make a huge difference, 
+                        just a slightly better practice to do the box-sizing border-box like 
+                        this. *box-sizing: border-box; is in the body*/
+}
+
+html {
+                        /*font-size: 10px;*/ /*It's actually a very bad practice
+                        to set the font size to pixels as well, so up here, this shouldn't really be 
+                        10 pixels. The problem is that by doing so we actually override the browser 
+                        font size setting that the user can manually change in the settings, and 
+                        many people actually do that. For example, when they have bad sight and 
+                        cannot see so good, then some people actually increase the default font 
+                        size of their browser. Now if we set the font to the 10 pixels like we 
+                        did here, then we remove the ability for these people to see our website 
+                        properly, because they can no longer change the default font size.
+                        Well, they can, but our root font size will not be affected by that anymore.
+                        It will just be 10 pixels no matter what the user has as a default font size.
+                        So this is a really bad practice, and that is why we're going to set over 
+                        a font size to a percentage here, which will translate to a percentage of 
+                        the font size given by the browser. Now the default font size, if the user 
+                        doesn't change anything, which is the initial situation that we want, is 16 
+                        pixels, so that's the absolute default, and that's a situation that we're 
+                        counting on here. So if we put 100% here, this would mean that the root font 
+                        size would be 16 pixel if the user doesn't change anything, and if the user 
+                        does change the default font size, let's say to 18 pixels, then the root 
+                        font size will be 18 pixel. If he changes to 20 pixel, then it will be 20, 
+                        and so on and so forth. Now, but we don't want 16 pixels here, right? What 
+                        we want is 10 pixels, and so it's very simple. All we have to do is to divide 
+                        what we want, which is 10, by 16. So 10 divided by 16 is 62.5%. So now, 
+                        imagine, let's say .625, so if the default is 16 like we had before, then 
+                        this translates to 10 pixels, right, which is what we want. But if the user 
+                        changes to, let's say 20 pixels, then our default font size will be 12.5 
+                        pixels, so the root font size I was saying, and if the user does 22, 
+                        it goes to 13.75 pixels, and so on and so forth, and so with this we allow 
+                        the user to actually zoom in on the page automatically, not only to change 
+                        the font size, but to also zoom in on the page, because basically that's what
+                        happens. Not exactly zooming, but increasing all of the measurements that we 
+                        have on our page.*/ 
+    font-size: 62.5%; /*This defines what 1rem is. 62.5% of 16px (browser default) is 10px. */
+
+    
+
+
+    @include respond(big-desktop) {
+        font-size: 75%;    //1rem = 12px, 12/16 = 75%
+    }
+
+    @include respond(tab-land) {
+        font-size: 50%;    //1rem = 8px, 8/16 = 50%
+    }
+
+    @include respond(tab-port) {
+        font-size: 43.75%;    //1rem = 7px, 7/16 = 43.75%
+    }
+
+    /*if we have conflicting media queries, like screen size is 500px and 500 is less than 600px, but also less than 900px, 
+    so the later media query will be applied*/
+}
+
+body {
+    box-sizing: border-box;
+    padding: 3rem;
+
+    @include respond(tab-port) {
+        padding: 0;
+    }
+}
+
+::selection {
+    background-color: $color-primary;
+    color: $color-white;
+}
+

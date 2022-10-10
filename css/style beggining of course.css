@@ -1,0 +1,255 @@
+/*
+COLORS:
+
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+
+*/
+
+*, *::after, *::before { /*also select all of the after pseudo-elements and also all of the 
+    before pseudo-elements. That's because, right now, only the real 
+    elements get this behavior here, but the after and before pseudo-
+    elements, they don't get this behavior, and since we don't want to 
+    see any strange behavior happening, we will also include these ones 
+    here as well.*/
+margin: 0;
+padding: 0;
+box-sizing: inherit; /*So the box-sizing property by itself is not inherited, but by setting 
+    the box-sizing property on each and every element on the entire page 
+    to inherit, it'll automatically inherit whatever we put here on 
+    border-box. So this is considered a slightly better practice by the 
+    CSS community because it makes it a bit easier to change the box-sizing
+    like in plugins or other components where we might want to use a 
+    different property for box-sizing. So it doesn't make a huge difference, 
+    just a slightly better practice to do the box-sizing border-box like 
+    this. *box-sizing: border-box; is in the body*/
+}
+
+html {
+/*font-size: 10px;*/ /*It's actually a very bad practice
+to set the font size to pixels as well, so up here, this shouldn't really be 
+10 pixels. The problem is that by doing so we actually override the browser 
+font size setting that the user can manually change in the settings, and 
+many people actually do that. For example, when they have bad sight and 
+cannot see so good, then some people actually increase the default font 
+size of their browser. Now if we set the font to the 10 pixels like we 
+did here, then we remove the ability for these people to see our website 
+properly, because they can no longer change the default font size.
+Well, they can, but our root font size will not be affected by that anymore.
+It will just be 10 pixels no matter what the user has as a default font size.
+So this is a really bad practice, and that is why we're going to set over 
+a font size to a percentage here, which will translate to a percentage of 
+the font size given by the browser. Now the default font size, if the user 
+doesn't change anything, which is the initial situation that we want, is 16 
+pixels, so that's the absolute default, and that's a situation that we're 
+counting on here. So if we put 100% here, this would mean that the root font 
+size would be 16 pixel if the user doesn't change anything, and if the user 
+does change the default font size, let's say to 18 pixels, then the root 
+font size will be 18 pixel. If he changes to 20 pixel, then it will be 20, 
+and so on and so forth. Now, but we don't want 16 pixels here, right? What 
+we want is 10 pixels, and so it's very simple. All we have to do is to divide 
+what we want, which is 10, by 16. So 10 divided by 16 is 62.5%. So now, 
+imagine, let's say .625, so if the default is 16 like we had before, then 
+this translates to 10 pixels, right, which is what we want. But if the user 
+changes to, let's say 20 pixels, then our default font size will be 12.5 
+pixels, so the root font size I was saying, and if the user does 22, 
+it goes to 13.75 pixels, and so on and so forth, and so with this we allow 
+the user to actually zoom in on the page automatically, not only to change 
+the font size, but to also zoom in on the page, because basically that's what
+happens. Not exactly zooming, but increasing all of the measurements that we 
+have on our page.*/ 
+font-size: 62.5%; /*62.5% of 16px (browser default) is 10px. */
+}
+
+body {
+font-family: 'Lato', sans-serif;
+font-weight: 400;
+/* font-size: 16px; */
+line-height: 1.7;
+color: #777;
+padding: 3rem;
+box-sizing: border-box;
+}
+
+.header {
+height: 95vh;
+background-image: linear-gradient(to right bottom, #7ed56fd0,#28b485d0), url(../img/hero.jpg);
+background-size: cover;
+background-position: top;
+clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+position: relative;
+}
+
+.header__logo-box {
+position: absolute;
+top: 4rem;
+left: 4rem;
+}
+
+.header__logo {
+height: 3.5rem;
+}
+
+/*.logo:hover {animation: moveInRight 3s ease-out;} WRONG!
+When we were hovering over the logo and animating it, the logo wanted to move; but when it did,
+our hover state was lost since the element was no longer under our active mouse.  Essentially, 
+the logo was 'freaking' out because it didn't know whether to animate / move or stay statically 
+positioned, thus, we were left with an ugly, Shrodinger flicker effect.
+When we hover over the container (logo-box) instead, the logo is free to move as intended since 
+our container remains static. */ 
+
+.header__logo-box:hover .header__logo {
+animation: moveInRight 3s ease-out;
+}
+
+.header__text-box {
+position: absolute;
+top: 40%;      /*of the parent element */
+left: 50%;  /*of the parent element */
+transform: translate(-50%, -50%); /*because we want the middle of the box to be in the center 
+              not the beggining of the box, translate is not in relation 
+              to the parent element, but to the element itself, so it 
+              will be shifted  half of the width to left and top*/
+text-align: center;
+}
+
+.heading-primary {
+color: #fff;
+text-transform: uppercase;
+
+backface-visibility: hidden; /*determines if the back part of the element when we transform it
+           is visible or hidden for the user. Also fixs a little shaking 
+           in the animation. no one knows why the shaking happens, but 
+           this fixes it. */
+
+margin-bottom: 6rem;
+}
+
+.heading-primary--main {
+display: block;
+font-size: 6rem;
+font-weight: 400;
+letter-spacing: 3.5rem;
+margin-right: -3.5rem;  /* because the added letter-spacing property also adds space AFTER the 
+     last letter */
+animation-name: moveInLeft;
+animation-duration: 1s;
+animation-timing-function: ease-out;
+}
+.heading-primary--sub {
+display: block;
+font-size: 2rem;
+font-weight: 700;
+letter-spacing: 1.75rem;
+margin-right: -1.75rem;    /* because the added letter-spacing property also adds space AFTER 
+         the last letter */
+animation: moveInRight 1s ease-out;
+}
+
+@keyframes moveInLeft {
+0% {
+opacity: 0;
+transform: translateX(-10rem);
+}
+
+80% {
+transform: translateX(1rem);
+}
+
+100%{
+opacity: 1;
+transform: translate(0);
+}
+}
+
+@keyframes moveInRight {
+0% {
+opacity: 0;
+transform: translateX(10rem);
+}
+
+80% {
+transform: translateX(-1rem);
+}
+
+100%{
+opacity: 1;
+transform: translate(0);
+}
+}
+
+@keyframes moveInBottom {
+0% {
+opacity: 0;
+transform: translateY(3rem);
+}
+
+100%{
+opacity: 1;
+transform: translate(0);
+}
+}
+
+.btn:link, .btn:visited {
+text-transform: uppercase;
+text-decoration: none;
+padding: 1.5rem 4rem;
+display: inline-block; /*Because this is an inline block element so it's treated as if it was 
+  text. So if we want it to be in the center of this box, all we have 
+  todo is to set the .text-box text-align property to center */
+border-radius: 10rem; /*we can put even 200px or 500px but it will look the same, because the 
+  border radius has its max*/
+transform: all .2s;
+position: relative;
+font-size: 1.6rem;
+}
+
+.btn:hover {
+transform: translateY(-0.3rem); /*to go up*/
+box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
+}
+
+.btn:active {
+transform: translateY(-0.1rem);
+box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .2);
+}
+
+.btn--white {
+background-color: #fff;
+color: #777;
+}
+
+.btn::after { /*the trick here is to add an element, that looks exactly like the button that 
+we already have, but we put it behind the button. and whenn we hover out of 
+the button, then this hidden pseudo-element goes back behind the button */
+content: ""; /* neccessary for 'after' pseudo element to actually apear on the page, doesn't 
+mater whats inside, it can even be empty*/
+display: inline-block; /*the same like with the content property, inline-block because we want 
+    it to look axactly the same like the button*/
+height: 100%;
+width: 100%;
+border-radius: 10rem;
+position: absolute;
+top: 0;
+left: 0;
+z-index: -1; /*defines the position of the elements if they are one on top of another. '-1' 
+means it's behind the button*/
+transition: all .4s;
+}
+
+.btn--white::after {
+background-color: #fff;
+}
+
+.btn:hover::after { /*'after' pseudo element only when we have the button on the hover state.
+we want the element to bee bigger - to grow and to fade out*/
+transform: scaleX(1.4) scaleY(1.6);
+opacity: 0;
+}
+
+.btn--animated{ /*only this button will have the animation*/
+animation: moveInBottom 0.5s ease-out .75s; /* .75s is animation delay */
+animation-fill-mode: backwards; /*automaticlly apply the styles of the 0% before the 
+              animation starts*/
+}

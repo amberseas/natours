@@ -1,0 +1,144 @@
+.popup {
+    height: 100vh;
+    width: 100%;
+    background-color: rgba($color-black, .8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3000;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: all .3s;
+    
+    //If the backdrop-filter is supported use this, else use 'background-color: rgba($color-black, .8)'
+    @supports (backdrop-filter: blur(10px)) {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background-color: rgba($color-black, .4);
+    }
+
+    &__content {
+
+        @include absCenter;
+
+        background-color: $color-white;
+        width: 73%;
+        border-radius: $default-border-radius;
+        box-shadow: 0 2rem 4rem rgba($color-black, .2);
+        display: table;
+        overflow: hidden;
+        
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.5); //we have to repeat 'translate' part from 'center' mixin in order for 
+                                                    //both transforms to work
+        transition: all .4s .2s;    //last number for anima delay
+    }
+
+    &__left {
+        width: getPercent(1, 3);
+        display: table-cell;
+        vertical-align: middle;
+
+        @include respond(tab-port){
+            width: 100%;
+            display: block;
+        }
+    }
+
+    &__right {
+        width: getPercent(2, 3);
+        display: table-cell;    //in order to both sides look the same height
+        vertical-align: middle;
+        padding: 3rem 5rem;
+
+        @include respond(tab-port){
+            width: 100%;
+            display: block;
+        }
+    }
+
+    &__img {
+        display: block;
+        width: 100%;
+
+        @include respond(tab-port){
+            width: 100%;
+            background-size: contain;
+            display: inline-block;
+            margin-top: -15rem;
+        }
+
+        @include respond(phone){
+            margin-top: -8rem;
+        }
+
+        &--1 {
+            @include respond(tab-port){
+                display: none;
+            }
+        }
+    }
+    
+
+    &__text {
+        font-size: 1.4rem;
+        margin-bottom: 4rem;
+
+        -moz-column-count: 2; //automatically creates two columns
+        -moz-column-gap: 4rem;
+        -moz-column-rule: 1px solid $color-grey-light-2;
+
+        column-count: 2; //automatically creates two columns
+        column-gap: 4rem;
+        column-rule: 1px solid $color-grey-light-2;
+
+        -moz-hyphens: auto; //for mozilla
+        -ms-hyphens: auto;  //for MS edge
+        -webkit-hyphens: auto;  //chrome and safari
+        hyphens: auto; //'-' in words
+
+        @include respond(tab-port){
+            column-count: 1;
+        }
+    }
+
+
+    //ANCHORS
+    /*A HTML tool - helps select the 'target'. Example, 'div' with a class 'popup' has an ID 'popup', than we use that id name 
+    on a button's 'href="#popup"', so when you click that button it directly displays our popup on the screen and 'popup 
+    becomes the target and we can style it*/
+
+
+    //OPEN STATES OF POPUP
+    &:target {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &:target &__content {   //when 'popup' becomes the target we style the content(child element)
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }   
+
+    &__close {
+        &:link,
+        &:visited {
+        font-size: 3rem;
+        color: $color-grey-dark;
+        text-decoration: none;
+        position: absolute;
+        top: 2.5rem;
+        right: 2.5rem;
+        display: inline-block;
+        line-height: 1;
+
+        transition: color .2s;
+        }
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+}
